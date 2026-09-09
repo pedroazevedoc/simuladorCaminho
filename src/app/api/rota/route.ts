@@ -1,10 +1,17 @@
 import { NextResponse } from 'next/server';
 import { locais, ruas } from '@/mocks/cityMocks';
+import { RequisicaoRota, RespostaRota } from '@/types/city';
+
+interface GrafoAdjacencia {
+  [key: string]: { 
+    [key: string]: number 
+  };
+}
 
 // Algoritmo de Dijkstra
-function calcularDijkstra(origemId, destinoId) {
+function calcularDijkstra(origemId: string, destinoId: string): RespostaRota {
   // 1. Construir lista de adjacência (Grafo não direcionado)
-  const grafo = {};
+  const grafo: GrafoAdjacencia = {};
   locais.forEach(loc => { grafo[loc.id] = {}; });
   
   ruas.forEach(rua => {
@@ -13,9 +20,9 @@ function calcularDijkstra(origemId, destinoId) {
   });
 
   // 2. Estruturas para rastrear distâncias e caminhos
-  const distancias = {};
-  const anteriores = {};
-  const naoVisitados = new Set(locais.map(l => l.id));
+  const distancias: Record<string, number> = {};
+  const anteriores: Record<string, string | null> = {};
+  const naoVisitados = new Set<string>(locais.map(l => l.id));
 
   locais.forEach(loc => {
     distancias[loc.id] = Infinity;
@@ -25,10 +32,10 @@ function calcularDijkstra(origemId, destinoId) {
 
   // 3. Loop principal do Dijkstra
   while (naoVisitados.size > 0) {
-    let atual = null;
+    let atual: string | null = null;
     let menorDistancia = Infinity;
 
-    for (let no of naoVisitados) {
+    for (const no of naoVisitados) {
       if (distancias[no] < menorDistancia) {
         menorDistancia = distancias[no];
         atual = no;
@@ -38,9 +45,9 @@ function calcularDijkstra(origemId, destinoId) {
     if (atual === null || atual === destinoId) break;
     naoVisitados.delete(atual);
 
-    for (let vizinho in grafo[atual]) {
+    for (const vizinho in grafo[atual]) {
       if (naoVisitados.has(vizinho)) {
-        let alt = distancias[atual] + grafo[atual][vizinho];
+        const alt = distancias[atual] + grafo[atual][vizinho];
         if (alt < distancias[vizinho]) {
           distancias[vizinho] = alt;
           anteriores[vizinho] = atual;
@@ -50,8 +57,8 @@ function calcularDijkstra(origemId, destinoId) {
   }
 
   // 4. Reconstruir o caminho percorrido
-  const caminho = [];
-  let noAtual = destinoId;
+  const caminho: string[] = [];
+  let noAtual: string | null = destinoId;
   while (noAtual !== null) {
     caminho.unshift(noAtual);
     noAtual = anteriores[noAtual];
@@ -64,8 +71,8 @@ function calcularDijkstra(origemId, destinoId) {
 }
 
 // Endpoint POST para calcular a rota entre dois locais
-export async function POST(request) {
-  const body = await request.json();
+export async function POST(request: Request) {
+  const body: RequisicaoRota = await request.json();
   const { origem, destino } = body;
 
   if (!origem || !destino) {
