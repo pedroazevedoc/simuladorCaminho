@@ -40,7 +40,7 @@ function RuaLinha({
 
       {/* Rótulo leve em HTML para a quilometragem */}
       <Html position={pontoMedio} center distanceFactor={25}>
-        <div className="bg-slate-900/90 text-slate-200 border border-slate-700 text-[10px] font-bold px-1.5 py-0.5 rounded shadow pointer-events-none whitespace-nowrap">
+        <div className="bg-card/90 text-card-foreground border border-border text-[10px] font-bold px-1.5 py-0.5 rounded shadow pointer-events-none whitespace-nowrap select-none">
           {peso} km
         </div>
       </Html>
@@ -65,7 +65,7 @@ export default function CityMap3D({ rotaResultado }: CityMap3DProps) {
   };
 
   return (
-    <div className="w-full h-150 bg-slate-950 rounded-xl overflow-hidden shadow-2xl relative">
+    <div className="w-full h-150 bg-background rounded-xl overflow-hidden shadow-2xl relative">
       <Canvas camera={{ position: [0, 25, 30], fov: 45 }}>
         {/* Iluminação */}
         <ambientLight intensity={0.8} />
@@ -96,7 +96,7 @@ export default function CityMap3D({ rotaResultado }: CityMap3DProps) {
 
               {/* Rótulo de Nome com HTML Flutuante */}
               <Html position={[0, 1.5, 0]} center distanceFactor={25}>
-                <div className="bg-slate-900/90 text-white border border-slate-700 text-xs font-semibold px-2 py-1 rounded-md shadow-md pointer-events-none whitespace-nowrap">
+                <div className="bg-card/90 text-card-foreground border border-border text-xs font-semibold px-2 py-1 rounded-md shadow-md pointer-events-none whitespace-nowrap select-none">
                   {local.label}
                 </div>
               </Html>
