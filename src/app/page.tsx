@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { locais } from '@/mocks/cityMocks';
 import { RespostaRota } from '@/types/city';
+import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList, ComboboxTrigger } from '@/components/kibo-ui/combobox';
 
 const CityMap3D = dynamic(() => import('@/components/cityMap3D'), {
   ssr: false,
@@ -15,8 +16,8 @@ const CityMap3D = dynamic(() => import('@/components/cityMap3D'), {
 });
 
 export default function Home() {
-  const [origem, setOrigem] = useState<string>(locais[0].id);
-  const [destino, setDestino] = useState<string>(locais[4].id);
+  const [origem, setOrigem] = useState<string>(locais[0].value);
+  const [destino, setDestino] = useState<string>(locais[4].value);
   const [resultado, setResultado] = useState<RespostaRota | null>(null);
   const [carregando, setCarregando] = useState<boolean>(false);
 
@@ -44,33 +45,53 @@ export default function Home() {
 
       <div className="flex flex-wrap gap-4 mb-6 bg-slate-900 p-4 rounded-lg border border-slate-800 shadow-lg">
         <div>
-          <label className="block text-xs text-slate-400 mb-1">Origem:</label>
-          <select
+          <label className="block text-xs text-primary-foreground mb-1">Origem:</label>
+          <Combobox
+            data={locais}
+            type="origem"
+            onValueChange={setOrigem}
             value={origem}
-            onChange={(e) => setOrigem(e.target.value)}
-            className="bg-slate-800 text-white p-2 rounded border border-slate-700 outline-none"
           >
-            {locais.map((loc) => (
-              <option key={loc.id} value={loc.id}>
-                {loc.nome}
-              </option>
-            ))}
-          </select>
+            <ComboboxTrigger />
+            <ComboboxContent>
+              <ComboboxInput />
+              <ComboboxEmpty />
+              <ComboboxList>
+                <ComboboxGroup>
+                  {locais.map((loc) => (
+                    <ComboboxItem key={loc.value} value={loc.value}>
+                      {loc.label}
+                    </ComboboxItem>
+                  ))}
+                </ComboboxGroup>
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
         </div>
 
         <div>
-          <label className="block text-xs text-slate-400 mb-1">Destino:</label>
-          <select
+          <label className="block text-xs text-primary-foreground mb-1">Destino:</label>
+          <Combobox
+            data={locais}
+            type="destino"
+            onValueChange={setDestino}
             value={destino}
-            onChange={(e) => setDestino(e.target.value)}
-            className="bg-slate-800 text-white p-2 rounded border border-slate-700 outline-none"
           >
-            {locais.map((loc) => (
-              <option key={loc.id} value={loc.id}>
-                {loc.nome}
-              </option>
-            ))}
-          </select>
+            <ComboboxTrigger />
+            <ComboboxContent>
+              <ComboboxInput />
+              <ComboboxEmpty />
+              <ComboboxList>
+                <ComboboxGroup>
+                  {locais.map((loc) => (
+                    <ComboboxItem key={loc.value} value={loc.value}>
+                      {loc.label}
+                    </ComboboxItem>
+                  ))}
+                </ComboboxGroup>
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
         </div>
 
         <div className="flex items-end">
