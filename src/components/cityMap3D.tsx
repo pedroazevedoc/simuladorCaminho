@@ -5,7 +5,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { locais, ruas } from '@/mocks/cityMocks';
-import { RespostaRota, Local, Rua, cityMap3DProps, RuaLinhaProps } from '@/types/city';
+import { Local, Rua, cityMap3DProps, RuaLinhaProps } from '@/types/city';
 
 // Componente para desenhar as linhas (ruas) usando Three.js nativo sem disparar o erro do Clock/Timer
 function RuaLinha({ 
