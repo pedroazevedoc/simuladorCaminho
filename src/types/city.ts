@@ -1,8 +1,8 @@
 export type TipoLocal = 'residencia' | 'comercio' | 'shopping';
 
 export interface Local {
-  id: string;
-  nome: string;
+  value: string;
+  label: string;
   posicao: [number, number, number]; // Tupla de coordenadas 3D [X, Y, Z]
   tipo: TipoLocal;
 }

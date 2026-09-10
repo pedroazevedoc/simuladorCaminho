@@ -12,7 +12,7 @@ interface GrafoAdjacencia {
 function calcularDijkstra(origemId: string, destinoId: string): RespostaRota {
   // 1. Construir lista de adjacência (Grafo não direcionado)
   const grafo: GrafoAdjacencia = {};
-  locais.forEach(loc => { grafo[loc.id] = {}; });
+  locais.forEach(loc => { grafo[loc.value] = {}; });
   
   ruas.forEach(rua => {
     grafo[rua.origem][rua.destino] = rua.peso;
@@ -22,11 +22,11 @@ function calcularDijkstra(origemId: string, destinoId: string): RespostaRota {
   // 2. Estruturas para rastrear distâncias e caminhos
   const distancias: Record<string, number> = {};
   const anteriores: Record<string, string | null> = {};
-  const naoVisitados = new Set<string>(locais.map(l => l.id));
+  const naoVisitados = new Set<string>(locais.map(l => l.value));
 
   locais.forEach(loc => {
-    distancias[loc.id] = Infinity;
-    anteriores[loc.id] = null;
+    distancias[loc.value] = Infinity;
+    anteriores[loc.value] = null;
   });
   distancias[origemId] = 0;
 
