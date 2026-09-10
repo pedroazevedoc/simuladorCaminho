@@ -2,10 +2,10 @@
 
 import React, { useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text } from '@react-three/drei';
+import { Html, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { locais, ruas } from '@/mocks/cityMocks';
-import { Local, Rua, cityMap3DProps, RuaLinhaProps } from '@/types/city';
+import { Local, Rua, CityMap3DProps, RuaLinhaProps } from '@/types/city';
 
 // Componente para desenhar as linhas (ruas) usando Three.js nativo sem disparar o erro do Clock/Timer
 function RuaLinha({ 
@@ -38,23 +38,17 @@ function RuaLinha({
       {/* Desenha a linha da rua */}
       <primitive object={lineObject} />
 
-      {/* Rótulo com a quilometragem no ponto médio da rua */}
-      <Text
-        position={pontoMedio}
-        fontSize={0.6}
-        color="#f8fafc"
-        anchorX="center"
-        anchorY="middle"
-        outlineWidth={0.05}
-        outlineColor="#0f172a" // Borda escura para facilitar a leitura no mapa
-      >
-        {`${peso} km`}
-      </Text>
+      {/* Rótulo leve em HTML para a quilometragem */}
+      <Html position={pontoMedio} center distanceFactor={25}>
+        <div className="bg-slate-900/90 text-slate-200 border border-slate-700 text-[10px] font-bold px-1.5 py-0.5 rounded shadow pointer-events-none whitespace-nowrap">
+          {peso} km
+        </div>
+      </Html>
     </group>
   );
 }
 
-export default function cityMap3D({ rotaResultado }: cityMap3DProps) {
+export default function CityMap3D({ rotaResultado }: CityMap3DProps) {
   const caminhoIds: string[] = rotaResultado?.caminho || [];
 
   // Função auxiliar para verificar se uma rua pertence à menor rota calculada
@@ -71,46 +65,41 @@ export default function cityMap3D({ rotaResultado }: cityMap3DProps) {
   };
 
   return (
-    <div className="w-full h-150 bg-slate-900 rounded-xl overflow-hidden shadow-2xl relative">
-      <Canvas camera={{ position: [0, 20, 25], fov: 50 }}>
+    <div className="w-full h-150 bg-slate-950 rounded-xl overflow-hidden shadow-2xl relative">
+      <Canvas camera={{ position: [0, 25, 30], fov: 45 }}>
         {/* Iluminação */}
-        <ambientLight intensity={0.7} />
+        <ambientLight intensity={0.8} />
         <directionalLight position={[10, 20, 15]} intensity={1} />
 
-        {/* Controles do Mouse (Girar / Zoom) */}
+        {/* Controles de Câmera */}
         <OrbitControls makeDefault />
 
         {/* Plano do Chão */}
-        <gridHelper args={[50, 50, '#475569', '#1e293b']} position={[0, -0.1, 0]} />
+        <gridHelper args={[60, 60, '#334155', '#1e293b']} position={[0, -0.1, 0]} />
 
-        {/* Renderizar os Nós (Pontos de Interesse) */}
+        {/* Vértices (Nós da Cidade) */}
         {locais.map((local: Local) => {
           const isOrigem = caminhoIds[0] === local.id;
           const isNoVisitado = caminhoIds.includes(local.id);
 
-          // Define a cor de acordo com o roteiro: Origem Laranja, Rota Verde, Outros Azul
           let cor = '#3b82f6';
-          if (isOrigem) cor = '#f97316'; // Laranja
-          else if (isNoVisitado) cor = '#22c55e'; // Verde
+          if (isOrigem) cor = '#f97316'; // Laranja para Origem
+          else if (isNoVisitado) cor = '#22c55e'; // Verde para Trajeto
 
           return (
             <group key={local.id} position={local.posicao}>
               {/* Esfera do Nó */}
               <mesh>
-                <sphereGeometry args={[1, 32, 32]} />
-                <meshStandardMaterial color={cor} />
+                <sphereGeometry args={[0.8, 32, 32]} />
+                <meshStandardMaterial color={cor} roughness={0.3} />
               </mesh>
 
-              {/* Rótulo 3D com Nome */}
-              <Text
-                position={[0, 1.8, 0]}
-                fontSize={0.8}
-                color="white"
-                anchorX="center"
-                anchorY="middle"
-              >
-                {local.nome}
-              </Text>
+              {/* Rótulo de Nome com HTML Flutuante */}
+              <Html position={[0, 1.5, 0]} center distanceFactor={25}>
+                <div className="bg-slate-900/90 text-white border border-slate-700 text-xs font-semibold px-2 py-1 rounded-md shadow-md pointer-events-none whitespace-nowrap">
+                  {local.nome}
+                </div>
+              </Html>
             </group>
           );
         })}
@@ -124,7 +113,7 @@ export default function cityMap3D({ rotaResultado }: cityMap3DProps) {
 
           const naRota = isRuaNaRota(rua.origem, rua.destino);
           const corLinha = naRota ? '#ef4444' : '#64748b'; // Vermelho para a rota, cinza para as demais
-          const largura = naRota ? 3 : 1; // Mais espessa para a rota
+          const largura = naRota ? 4 : 1; // Mais espessa para a rota
 
           return (
             <RuaLinha
