@@ -79,15 +79,15 @@ export default function CityMap3D({ rotaResultado }: CityMap3DProps) {
 
         {/* Vértices (Nós da Cidade) */}
         {locais.map((local: Local) => {
-          const isOrigem = caminhoIds[0] === local.id;
-          const isNoVisitado = caminhoIds.includes(local.id);
+          const isOrigem = caminhoIds[0] === local.value;
+          const isNoVisitado = caminhoIds.includes(local.value);
 
           let cor = '#3b82f6';
           if (isOrigem) cor = '#f97316'; // Laranja para Origem
           else if (isNoVisitado) cor = '#22c55e'; // Verde para Trajeto
 
           return (
-            <group key={local.id} position={local.posicao}>
+            <group key={local.value} position={local.posicao}>
               {/* Esfera do Nó */}
               <mesh>
                 <sphereGeometry args={[0.8, 32, 32]} />
@@ -97,7 +97,7 @@ export default function CityMap3D({ rotaResultado }: CityMap3DProps) {
               {/* Rótulo de Nome com HTML Flutuante */}
               <Html position={[0, 1.5, 0]} center distanceFactor={25}>
                 <div className="bg-slate-900/90 text-white border border-slate-700 text-xs font-semibold px-2 py-1 rounded-md shadow-md pointer-events-none whitespace-nowrap">
-                  {local.nome}
+                  {local.label}
                 </div>
               </Html>
             </group>
@@ -106,8 +106,8 @@ export default function CityMap3D({ rotaResultado }: CityMap3DProps) {
 
         {/* Renderizar as Arestas (Ruas) */}
         {ruas.map((rua: Rua, idx: number) => {
-          const locOrigem = locais.find(l => l.id === rua.origem);
-          const locDestino = locais.find(l => l.id === rua.destino);
+          const locOrigem = locais.find(l => l.value === rua.origem);
+          const locDestino = locais.find(l => l.value === rua.destino);
 
           if (!locOrigem || !locDestino) return null;
 
