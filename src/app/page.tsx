@@ -5,17 +5,20 @@ import dynamic from 'next/dynamic';
 import { locais } from '@/mocks/cityMocks';
 import { RespostaRota } from '@/types/city';
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList, ComboboxTrigger } from '@/components/kibo-ui/combobox';
+import { ThemeSwitcher } from '@/components/kibo-ui/theme-switcher';
+import { useTheme } from 'next-themes';
 
 const CityMap3D = dynamic(() => import('@/components/cityMap3D'), {
   ssr: false,
   loading: () => (
-    <div className="h-150 flex items-center justify-center bg-slate-900 text-white rounded-xl">
+    <div className="h-150 flex items-center justify-center bg-card text-card-foreground rounded-xl">
       Carregando visualização 3D...
     </div>
   )
 });
 
 export default function Home() {
+  const { theme, setTheme } = useTheme();
   const [origem, setOrigem] = useState<string>(locais[0].value);
   const [destino, setDestino] = useState<string>(locais[4].value);
   const [resultado, setResultado] = useState<RespostaRota | null>(null);
@@ -39,13 +42,20 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 p-8 flex flex-col items-center">
+    <main className="relative min-h-screen bg-background text-foreground p-8 flex flex-col items-center">
+      <div className="absolute right-8 top-8">
+        <ThemeSwitcher
+          value={theme as 'light' | 'dark' | 'system'}
+          onChange={setTheme}
+        />
+      </div>
       <h1 className="text-3xl font-bold mb-2">Simulador Cidade do Luizinho</h1>
-      <p className="text-slate-400 mb-8">Algoritmo do Menor Caminho (Teoria dos Grafos)</p>
+      <p className="text-muted-foreground mb-8">Algoritmo do Menor Caminho (Teoria dos Grafos)</p>
 
-      <div className="flex flex-wrap gap-4 mb-6 bg-slate-900 p-4 rounded-lg border border-slate-800 shadow-lg">
+      <div className="flex flex-wrap gap-4 mb-6 bg-card p-4 rounded-lg border border-border shadow-lg">
+        {/* Origem */}
         <div>
-          <label className="block text-xs text-primary-foreground mb-1">Origem:</label>
+          <label className="block text-xs text-primary mb-1">Origem:</label>
           <Combobox
             data={locais}
             type="origem"
@@ -69,8 +79,9 @@ export default function Home() {
           </Combobox>
         </div>
 
+        {/* Destino */}
         <div>
-          <label className="block text-xs text-primary-foreground mb-1">Destino:</label>
+          <label className="block text-xs text-primary mb-1">Destino:</label>
           <Combobox
             data={locais}
             type="destino"
@@ -98,7 +109,7 @@ export default function Home() {
           <button
             onClick={handleCalcularRota}
             disabled={carregando}
-            className="bg-blue-600 hover:bg-blue-500 font-semibold px-6 py-2 rounded transition-all disabled:opacity-50"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 py-2 rounded transition-all disabled:opacity-50"
           >
             {carregando ? 'Calculando...' : 'Calcular Menor Rota'}
           </button>
@@ -106,7 +117,7 @@ export default function Home() {
       </div>
 
       {resultado && (
-        <div className="mb-4 text-emerald-400 font-semibold bg-emerald-950/40 border border-emerald-800/50 px-4 py-2 rounded-md">
+        <div className="mb-4 text-emerald-500 font-semibold bg-emerald-950/60 border border-emerald-800/50 px-4 py-2 rounded-md">
           Distância Total: {resultado.distanciaTotal} km
         </div>
       )}

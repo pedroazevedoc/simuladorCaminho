@@ -208,7 +208,7 @@ export const ComboboxInput = ({
   return (
     <CommandInput
       onValueChange={onValueChange}
-      placeholder={`Search ${type}...`}
+      placeholder={`Pesquise por ${type}...`}
       value={value}
       {...props}
     />
