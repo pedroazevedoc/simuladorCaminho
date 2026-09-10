@@ -7,6 +7,8 @@ import { RespostaRota } from '@/types/city';
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList, ComboboxTrigger } from '@/components/kibo-ui/combobox';
 import { ThemeSwitcher } from '@/components/kibo-ui/theme-switcher';
 import { useTheme } from 'next-themes';
+import { ShimmerButton } from '@/components/ui/shimmer-button';
+import { Navigation } from 'lucide-react';
 
 const CityMap3D = dynamic(() => import('@/components/cityMap3D'), {
   ssr: false,
@@ -106,13 +108,23 @@ export default function Home() {
         </div>
 
         <div className="flex items-end">
-          <button
+          <ShimmerButton
             onClick={handleCalcularRota}
             disabled={carregando}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 py-2 rounded transition-all disabled:opacity-50"
+            shimmerColor="#f97316"
+            shimmerSize="0.12rem"
+            shimmerDuration="2s"
+            background="rgba(15, 23, 42, 0.9)"
+            className="relative flex items-center justify-center gap-3 px-6 py-2 rounded-xl font-bold text-white transition-all duration-300 shadow-lg shadow-orange-500/10 hover:shadow-orange-500/25 hover:scale-[1.02] active:scale-[0.98] border border-orange-500/30 hover:border-orange-500/60 disabled:opacity-50 disabled:cursor-not-allowed group cursor-pointer"
           >
-            {carregando ? 'Calculando...' : 'Calcular Menor Rota'}
-          </button>
+            {/* {carregando ? 'Calculando...' : 'Calcular Menor Rota'} */}
+            {/* Ícone com animação de pulso no hover */}
+            <Navigation className={`w-5 h-5 text-orange-400 transition-transform duration-300 group-hover:rotate-45 ${carregando ? 'animate-spin' : ''}`} />
+            
+            <span className="tracking-wide bg-linear-to-r from-orange-200 via-white to-orange-100 bg-clip-text text-transparent">
+              {carregando ? 'Calculando Rota...' : 'Calcular Menor Rota'}
+            </span>
+          </ShimmerButton>
         </div>
       </div>
 
