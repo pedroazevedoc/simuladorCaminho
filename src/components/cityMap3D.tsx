@@ -1,17 +1,60 @@
-// components/MapaCidade3D.jsx
 'use client'
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text, Line } from '@react-three/drei';
+import { OrbitControls, Text } from '@react-three/drei';
+import * as THREE from 'three';
 import { locais, ruas } from '@/mocks/cityMocks';
-import { RespostaRota, Local, Rua } from '@/types/city';
+import { RespostaRota, Local, Rua, cityMap3DProps, RuaLinhaProps } from '@/types/city';
 
-interface cityMap3DProps {
-  rotaResultado: RespostaRota | null;
+// Componente para desenhar as linhas (ruas) usando Three.js nativo sem disparar o erro do Clock/Timer
+function RuaLinha({ 
+  inicio, 
+  fim, 
+  cor, 
+  espessura,
+  peso
+}: RuaLinhaProps) {
+  // 1. Criação da linha nativa via Three.js
+  const lineObject = useMemo(() => {
+    const points = [new THREE.Vector3(...inicio), new THREE.Vector3(...fim)];
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color: cor, linewidth: espessura });
+    
+    return new THREE.Line(geometry, material);
+  }, [inicio, fim, cor, espessura]);
+
+  // 2. Cálculo do ponto médio (P) entre inicio (A) e fim (B): P = (A + B) / 2
+  const pontoMedio: [number, number, number] = useMemo(() => {
+    return [
+      (inicio[0] + fim[0]) / 2,
+      (inicio[1] + fim[1]) / 2 + 0.5, // Elevação leve em Y para não sobrepor a linha
+      (inicio[2] + fim[2]) / 2,
+    ];
+  }, [inicio, fim]);
+
+  return (
+    <group>
+      {/* Desenha a linha da rua */}
+      <primitive object={lineObject} />
+
+      {/* Rótulo com a quilometragem no ponto médio da rua */}
+      <Text
+        position={pontoMedio}
+        fontSize={0.6}
+        color="#f8fafc"
+        anchorX="center"
+        anchorY="middle"
+        outlineWidth={0.05}
+        outlineColor="#0f172a" // Borda escura para facilitar a leitura no mapa
+      >
+        {`${peso} km`}
+      </Text>
+    </group>
+  );
 }
 
-export default function MapaCidade3D({ rotaResultado }: cityMap3DProps) {
+export default function cityMap3D({ rotaResultado }: cityMap3DProps) {
   const caminhoIds: string[] = rotaResultado?.caminho || [];
 
   // Função auxiliar para verificar se uma rua pertence à menor rota calculada
@@ -80,17 +123,17 @@ export default function MapaCidade3D({ rotaResultado }: cityMap3DProps) {
           if (!locOrigem || !locDestino) return null;
 
           const naRota = isRuaNaRota(rua.origem, rua.destino);
-
-          // Cor da rua: Vermelha se estiver na rota final, Cinza para as demais
-          const corLinha = naRota ? '#ef4444' : '#64748b';
-          const larguraLinha = naRota ? 5 : 2;
+          const corLinha = naRota ? '#ef4444' : '#64748b'; // Vermelho para a rota, cinza para as demais
+          const largura = naRota ? 3 : 1; // Mais espessa para a rota
 
           return (
-            <Line
+            <RuaLinha
               key={idx}
-              points={[locOrigem.posicao, locDestino.posicao]}
-              color={corLinha}
-              lineWidth={larguraLinha}
+              inicio={locOrigem.posicao}
+              fim={locDestino.posicao}
+              cor={corLinha}
+              espessura={largura}
+              peso={rua.peso}
             />
           );
         })}
