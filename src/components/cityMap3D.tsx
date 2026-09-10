@@ -39,7 +39,7 @@ function RuaLinha({
       <primitive object={lineObject} />
 
       {/* Rótulo leve em HTML para a quilometragem */}
-      <Html position={pontoMedio} center distanceFactor={25}>
+      <Html position={pontoMedio} center distanceFactor={25} zIndexRange={[10, 0]}>
         <div className="bg-card/90 text-card-foreground border border-border text-[10px] font-bold px-1.5 py-0.5 rounded shadow pointer-events-none whitespace-nowrap select-none">
           {peso} km
         </div>
@@ -95,7 +95,7 @@ export default function CityMap3D({ rotaResultado }: CityMap3DProps) {
               </mesh>
 
               {/* Rótulo de Nome com HTML Flutuante */}
-              <Html position={[0, 1.5, 0]} center distanceFactor={25}>
+              <Html position={[0, 1.5, 0]} center distanceFactor={25} zIndexRange={[11, 0]}>
                 <div className="bg-card/90 text-card-foreground border border-border text-xs font-semibold px-2 py-1 rounded-md shadow-md pointer-events-none whitespace-nowrap select-none">
                   {local.label}
                 </div>
