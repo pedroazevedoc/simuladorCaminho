@@ -23,7 +23,7 @@ export interface RespostaRota {
   distanciaTotal: number;
 }
 
-export interface cityMap3DProps {
+export interface CityMap3DProps {
   rotaResultado: RespostaRota | null;
 }
 
