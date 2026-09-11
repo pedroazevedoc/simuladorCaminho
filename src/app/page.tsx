@@ -8,12 +8,14 @@ import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxGroup, ComboboxInput,
 import { Header } from '@/components/layouts/header';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
 import { Navigation } from 'lucide-react';
+import { Spinner } from '@/components/kibo-ui/spinner';
 
 const CityMap3D = dynamic(() => import('@/components/cityMap3D'), {
   ssr: false,
   loading: () => (
-    <div className="h-150 flex items-center justify-center bg-card text-card-foreground rounded-xl">
-      Carregando visualização 3D...
+    <div className="h-150 flex flex-col items-center justify-center bg-card text-card-foreground rounded-xl space-y-2">
+      <Spinner variant="ring" />
+      <span>Carregando visualização 3D...</span>
     </div>
   )
 });
@@ -105,7 +107,7 @@ export default function Home() {
           <ShimmerButton
             onClick={handleCalcularRota}
             disabled={carregando}
-            shimmerColor="#f97316"
+            shimmerColor="#f54900"
             shimmerSize="0.12rem"
             shimmerDuration="2s"
             background="rgba(15, 23, 42, 0.9)"
