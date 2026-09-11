@@ -149,3 +149,10 @@
     @apply font-sans;
   }
 }
+
+@media (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: none;
+  }
+}
