@@ -44,7 +44,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen bg-background text-foreground p-4 sm:p-8 flex flex-col items-center">
+    <main className="relative min-h-screen text-foreground p-4 sm:p-8 flex flex-col items-center">
       <Header
         title="Simulador Cidade do Luizinho"
         subtitle="Algoritmo do Menor Caminho (Teoria dos Grafos)"

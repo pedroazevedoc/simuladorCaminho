@@ -7,7 +7,7 @@ export function Header(props: HeaderProps) {
   const { title, subtitle } = props;
 
   return (
-    <header className="bg-background pt-4 sm:p-0">
+    <header className="pt-4 sm:p-0">
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-1 sm:gap-2 pr-12 sm:pr-16">
         <h1 className="text-lg sm:text-2xl text-foreground font-bold text-center leading-tight">
           {title}
