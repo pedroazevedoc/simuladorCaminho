@@ -26,11 +26,3 @@ export interface RespostaRota {
 export interface CityMap3DProps {
   rotaResultado: RespostaRota | null;
 }
-
-export interface RuaLinhaProps {
-  inicio: [number, number, number];
-  fim: [number, number, number];
-  cor: string;
-  espessura: number;
-  peso: number; // Distância em km
-}
