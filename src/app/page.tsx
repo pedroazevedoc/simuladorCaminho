@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { locais } from '@/mocks/cityMocks';
 import { RespostaRota } from '@/types/city';
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList, ComboboxTrigger } from '@/components/kibo-ui/combobox';
-import { ThemeSwitcher } from '@/components/kibo-ui/theme-switcher';
-import { useTheme } from 'next-themes';
+import { Header } from '@/components/layouts/header';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
 import { Navigation } from 'lucide-react';
 
@@ -20,7 +19,6 @@ const CityMap3D = dynamic(() => import('@/components/cityMap3D'), {
 });
 
 export default function Home() {
-  const { theme, setTheme } = useTheme();
   const [origem, setOrigem] = useState<string>(locais[0].value);
   const [destino, setDestino] = useState<string>(locais[4].value);
   const [resultado, setResultado] = useState<RespostaRota | null>(null);
@@ -44,17 +42,13 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen bg-background text-foreground p-8 flex flex-col items-center">
-      <div className="absolute right-8 top-8">
-        <ThemeSwitcher
-          value={theme as 'light' | 'dark' | 'system'}
-          onChange={setTheme}
-        />
-      </div>
-      <h1 className="text-3xl font-bold mb-2">Simulador Cidade do Luizinho</h1>
-      <p className="text-muted-foreground mb-8">Algoritmo do Menor Caminho (Teoria dos Grafos)</p>
+    <main className="relative min-h-screen bg-background text-foreground p-4 sm:p-8 flex flex-col items-center">
+      <Header
+        title="Simulador Cidade do Luizinho"
+        subtitle="Algoritmo do Menor Caminho (Teoria dos Grafos)"
+      />
 
-      <div className="flex flex-wrap gap-4 mb-6 bg-card p-4 rounded-lg border border-border shadow-lg">
+      <div className="flex flex-wrap gap-4 my-6 bg-card p-4 rounded-lg border border-border shadow-lg">
         {/* Origem */}
         <div>
           <label className="block text-xs text-primary mb-1">Origem:</label>
@@ -117,7 +111,6 @@ export default function Home() {
             background="rgba(15, 23, 42, 0.9)"
             className="relative flex items-center justify-center gap-3 px-6 py-2 rounded-xl font-bold text-white transition-all duration-300 shadow-lg shadow-orange-500/10 hover:shadow-orange-500/25 hover:scale-[1.02] active:scale-[0.98] border border-orange-500/30 hover:border-orange-500/60 disabled:opacity-50 disabled:cursor-not-allowed group cursor-pointer"
           >
-            {/* {carregando ? 'Calculando...' : 'Calcular Menor Rota'} */}
             {/* Ícone com animação de pulso no hover */}
             <Navigation className={`w-5 h-5 text-orange-400 transition-transform duration-300 group-hover:rotate-45 ${carregando ? 'animate-spin' : ''}`} />
             
