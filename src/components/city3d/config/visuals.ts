@@ -59,6 +59,47 @@ export const ROTULO_TIPO: Record<TipoLocal, string> = {
   shopping: 'Shopping',
 };
 
+// Configuração visual do telhado de cada tipologia
+export interface ConfigTelhado {
+  tipo: 'piramide' | 'laje' | 'laje-elevada';
+  cor: string;
+  altura: number;       // Espessura/altura do telhado
+  saliencia: number;    // O quanto a laje avança além das paredes
+  alturaElevada: number; // Altura do bloco central (apenas laje-elevada)
+  rugosidade: number;
+  metalness: number;
+}
+
+export const CONFIG_TELHADO: Record<TipoLocal, ConfigTelhado> = {
+  residencia: {
+    tipo: 'piramide',
+    cor: '#b45309',
+    altura: 1.1,
+    saliencia: 0,
+    alturaElevada: 0,
+    rugosidade: 0.9,
+    metalness: 0,
+  },
+  comercio: {
+    tipo: 'laje',
+    cor: '#64748b',
+    altura: 0.18,
+    saliencia: 0.35,
+    alturaElevada: 0,
+    rugosidade: 0.7,
+    metalness: 0.2,
+  },
+  shopping: {
+    tipo: 'laje-elevada',
+    cor: '#475569',
+    altura: 0.25,
+    saliencia: 0.5,
+    alturaElevada: 0.9,
+    rugosidade: 0.6,
+    metalness: 0.3,
+  },
+};
+
 // Exceções de dimensões para locais específicos que devem fugir do padrão do tipo
 export const EXCECOES_DIMENSOES: Record<string, VisualTipo['dimensoes']> = {
   faculdade: { largura: 5, altura: 4, profundidade: 5 },
