@@ -46,31 +46,31 @@ export function isLocalNaRota(caminhoIds: string[], value: string): boolean {
 }
 
 // Posições fixas (determinísticas) dos elementos de entorno — evitam o uso
-// de Math.random durante o render (regra react-hooks/purity do lint)
+// de Math.random durante o render (regra react-hooks/purity do lint).
 export const ARVORES: [number, number][] = [
-  [-18, -14],
-  [-17, 9],
-  [-12, 3],
-  [12, 11],
-  [16, 5],
-  [-8, -16],
-  [6, -15],
-  [19, -2],
-  [3, 14],
-  [-4, 13],
+  [-32, -25],
+  [-31, 16],
+  [-22, 5],
+  [22, 20],
+  [29, 9],
+  [-14, -29],
+  [11, -27],
+  [34, -4],
+  [5, 25],
+  [-7, 23],
 ];
 
 export const CARROS: [number, number][] = [
-  [10, 1],
-  [-4, 0.5],
-  [-11, 7],
-  [13, 5],
-  [2, -11],
+  [9, 0],
+  [-7, 1],
+  [-20, 13],
+  [23, 9],
+  [4, -20],
 ];
 
 export const POSTES: [number, number][] = [
-  [-13, -3],
-  [11, -7],
-  [-9, 1],
-  [15, 8],
+  [-23, -5],
+  [20, -13],
+  [-16, 2],
+  [27, 14],
 ];
