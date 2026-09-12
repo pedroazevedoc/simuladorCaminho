@@ -3,8 +3,8 @@ import type { TipoLocal } from '@/types/city';
 // Cores de estado compartilhadas entre os objetos 3D
 export const CORES_ESTADO = {
   origem: '#f97316',      // Laranja — ponto de partida da rota
+  destino: '#3b82f6',    // Azul — ponto final da rota
   trajeto: '#22c55e',     // Verde — nós visitados no caminho
-  normal: '#3b82f6',      // Azul — local neutro
   selecionado: '#eab308', // Amarelo — local em destaque (interação)
   rota: '#ef4444',        // Vermelho — ruas que fazem parte do menor caminho
 } as const;
@@ -50,6 +50,13 @@ export const CONFIG_TIPO: Record<TipoLocal, VisualTipo> = {
     rugosidade: 0.6,
     metalness: 0.3,
   },
+};
+
+// Rótulos em pt-BR de cada tipologia (usados no cartão de informações)
+export const ROTULO_TIPO: Record<TipoLocal, string> = {
+  residencia: 'Residência',
+  comercio: 'Comércio',
+  shopping: 'Shopping',
 };
 
 // Exceções de dimensões para locais específicos que devem fugir do padrão do tipo
