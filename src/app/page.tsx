@@ -9,6 +9,7 @@ import { Header } from '@/components/layouts/header';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
 import { Navigation } from 'lucide-react';
 import { Spinner } from '@/components/kibo-ui/spinner';
+import { Label } from '@/components/ui/label';
 
 const CityMap3D = dynamic(() => import('@/components/city3d/cityMap3D'), {
   ssr: false,
@@ -53,7 +54,7 @@ export default function Home() {
       <div className="flex flex-wrap gap-4 my-6 bg-card p-4 rounded-lg border border-border shadow-lg">
         {/* Origem */}
         <div>
-          <label className="block text-xs text-primary mb-1">Origem:</label>
+          <Label htmlFor="origem" className="text-xs text-primary mb-1">Origem:</Label>
           <Combobox
             data={locais}
             type="origem"
@@ -79,7 +80,7 @@ export default function Home() {
 
         {/* Destino */}
         <div>
-          <label className="block text-xs text-primary mb-1">Destino:</label>
+          <Label htmlFor="destino" className="text-xs text-primary mb-1">Destino:</Label>
           <Combobox
             data={locais}
             type="destino"
