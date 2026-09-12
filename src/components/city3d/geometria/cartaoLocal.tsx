@@ -2,7 +2,7 @@
 
 import { Html } from '@react-three/drei'
 import type { Local } from '@/types/city'
-import { ROTULO_TIPO, resolverDimensoes } from '../config/visuals'
+import { ROTULO_TIPO, CONFIG_TELHADO, resolverDimensoes } from '../config/visuals'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -15,7 +15,9 @@ interface CartaoLocalProps {
 }
 
 export function CartaoLocal({ local, isOrigem, isDestino, naRota }: CartaoLocalProps) {
-  const alturaPredio = resolverDimensoes(local.tipo, local.value).altura;
+  const dimensoes = resolverDimensoes(local.tipo, local.value);
+  const telhado = CONFIG_TELHADO[local.tipo];
+  const topoTelhado = dimensoes.altura + telhado.altura + telhado.alturaElevada;
   const status = isOrigem
     ? { texto: 'Origem da rota', classe: 'bg-orange-500 text-white' }
     : isDestino
@@ -26,7 +28,7 @@ export function CartaoLocal({ local, isOrigem, isDestino, naRota }: CartaoLocalP
 
   return (
     <Html
-      position={[0, alturaPredio + 2.8, 0]}
+      position={[0, topoTelhado + 3, 0]}
       center
       distanceFactor={25}
       zIndexRange={[12, 0]}

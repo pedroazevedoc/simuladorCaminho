@@ -3,7 +3,8 @@
 import { useMemo, useState } from 'react'
 import { Html } from '@react-three/drei'
 import type { Local } from '@/types/city'
-import { CONFIG_TIPO, CORES_ESTADO, resolverDimensoes } from '../config/visuals'
+import { CONFIG_TIPO, CONFIG_TELHADO, CORES_ESTADO, resolverDimensoes } from '../config/visuals'
+import { Telhado } from './telhado'
 
 interface PredioProps {
   local: Local;
@@ -31,6 +32,9 @@ export function Predio({
       dimensoes: resolverDimensoes(local.tipo, local.value),
     };
   }, [local]);
+
+  const telhado = CONFIG_TELHADO[local.tipo];
+  const topoTelhado = dimensoes.altura + telhado.altura + telhado.alturaElevada;
 
   // Precedência de cor do predio: origem > destino > selecionado > naRota > cor padrão do tipo
   const corEfetiva = isOrigem
@@ -72,8 +76,10 @@ export function Predio({
         />
       </mesh>
 
+      <Telhado tipo={local.tipo} dimensoes={dimensoes} />
+
       <Html
-        position={[0, dimensoes.altura + 1.2, 0]}
+        position={[0, topoTelhado + 1.2, 0]}
         center
         distanceFactor={25}
         zIndexRange={[11, 0]}
