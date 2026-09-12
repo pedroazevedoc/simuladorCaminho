@@ -46,6 +46,8 @@ export function RuaViaria({ rua, inicio, fim, naRota }: RuaViariaProps) {
             color={naRota ? CORES_AMBIENTE.asfaltoRota : CORES_AMBIENTE.asfalto}
             roughness={0.9}
             metalness={0}
+            emissive={naRota ? CORES_AMBIENTE.asfaltoRota : '#000000'}
+            emissiveIntensity={naRota ? 0.45 : 0}
           />
         </mesh>
       </group>
