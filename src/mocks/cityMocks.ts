@@ -3,18 +3,18 @@ import { Local, Rua } from '@/types/city';
 // Coordenadas cartesianas (X, Y, Z) de cada local
 // Z = 0 para simular um plano urbano
 export const locais: Local[] = [
-  { value: 'casa-do-luizinho', label: 'Casa do Luizinho',  posicao: [-10, 0, -5],  tipo: 'residencia' },
-  { value: 'casa-dos-amigos',  label: 'Casa dos Amigos',   posicao: [-5, 0, 5],    tipo: 'residencia' },
-  { value: 'casa-da-namorada', label: 'Casa da Namorada',  posicao: [5, 0, 8],     tipo: 'residencia' },
-  { value: 'comercio',         label: 'Comércio Central',  posicao: [0, 0, -2],    tipo: 'comercio' },
-  { value: 'shopping',         label: 'Shopping Center',   posicao: [10, 0, 2],    tipo: 'shopping' },
-  { value: 'escola',           label: 'Escola Municipal',  posicao: [-14, 0, 4],   tipo: 'comercio' },
-  { value: 'parque',           label: 'Parque Central',    posicao: [-2, 0, 8],    tipo: 'comercio' },
-  { value: 'hospital',         label: 'Hospital Geral',    posicao: [4, 0, -8],    tipo: 'comercio' },
-  { value: 'faculdade',        label: 'Faculdade',         posicao: [14, 0, -6],   tipo: 'comercio' },
-  { value: 'rodoviaria',       label: 'Rodoviária',        posicao: [-6, 0, -12],  tipo: 'comercio' },
-  { value: 'padaria',          label: 'Padaria do Bairro', posicao: [-16, 0, -10], tipo: 'comercio' },
-  { value: 'cinema',           label: 'Cinema',            posicao: [8, 0, -3],    tipo: 'shopping' }
+  { value: 'casa-do-luizinho', label: 'Casa do Luizinho',  posicao: [-18, 0, -9],  tipo: 'residencia' },
+  { value: 'casa-dos-amigos',  label: 'Casa dos Amigos',   posicao: [-9, 0, 9],    tipo: 'residencia' },
+  { value: 'casa-da-namorada', label: 'Casa da Namorada',  posicao: [9, 0, 14],    tipo: 'residencia' },
+  { value: 'comercio',         label: 'Comércio Central',  posicao: [0, 0, -4],    tipo: 'comercio' },
+  { value: 'shopping',         label: 'Shopping Center',   posicao: [18, 0, 4],    tipo: 'shopping' },
+  { value: 'escola',           label: 'Escola Municipal',  posicao: [-25, 0, 7],   tipo: 'comercio' },
+  { value: 'parque',           label: 'Parque Central',    posicao: [-4, 0, 14],   tipo: 'comercio' },
+  { value: 'hospital',         label: 'Hospital Geral',    posicao: [7, 0, -14],   tipo: 'comercio' },
+  { value: 'faculdade',        label: 'Faculdade',         posicao: [25, 0, -11],  tipo: 'comercio' },
+  { value: 'rodoviaria',       label: 'Rodoviária',        posicao: [-11, 0, -22], tipo: 'comercio' },
+  { value: 'padaria',          label: 'Padaria do Bairro', posicao: [-29, 0, -18], tipo: 'comercio' },
+  { value: 'cinema',           label: 'Cinema',            posicao: [14, 0, -5],   tipo: 'shopping' }
 ];
 
 // As ruas (Arestas) com suas respectivas distâncias (Pesos em km)

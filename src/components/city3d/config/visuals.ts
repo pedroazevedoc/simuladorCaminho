@@ -14,7 +14,6 @@ export const CORES_AMBIENTE = {
   chao: '#0f172a',        // Tom escuro do solo urbano
   chaoSecundario: '#1e293b',
   asfalto: '#475569',     // Cor padrão das ruas
-  asfaltoRota: '#ef4444', // Asfalto das ruas do trajeto (efeito neon)
   vegetacao: '#15803d',   // Árvores e vegetação do entorno
   veiculo: '#f59e0b',     // Carros estáticos do entorno
 } as const;
