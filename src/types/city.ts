@@ -25,4 +25,5 @@ export interface RespostaRota {
 
 export interface CityMap3DProps {
   rotaResultado: RespostaRota | null;
+  onSelecionarLocal?: (value: string | null) => void;
 }
