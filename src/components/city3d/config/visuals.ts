@@ -6,8 +6,7 @@ export const CORES_ESTADO = {
   destino: '#3b82f6',     // Azul — ponto final da rota
   trajeto: '#22c55e',     // Verde — nós visitados no caminho
   selecionado: '#eab308', // Amarelo — local em destaque (interação)
-  rota: '#FFFFFF',        // Branco - todas as ruas da cidade
-  rotaCaminho: '#eab308', // Amarelo — ruas que fazem parte do menor caminho
+  rota: '#eab308',        // Amarelo — ruas que fazem parte do menor caminho
 } as const;
 
 // Cores do ambiente (entorno)
@@ -19,6 +18,7 @@ export const CORES_AMBIENTE = {
   grama: '#166534',       // Canteiros e praça verde do parque
   lote: '#263244',        // Base de concreto dos lotes dos prédios
   trilha: '#cda97a',      // Trilha de terra dentro do parque
+  faixa: '#e2e8f0',       // Marcações de trânsito e faixas de pedestres
   vegetacao: '#15803d',   // Árvores e vegetação do entorno
   tronco: '#7c4a26',      // Troncos das árvores
   poste: '#64748b',       // Postes de iluminação
