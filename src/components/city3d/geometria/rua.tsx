@@ -9,7 +9,9 @@ import { anguloDaRua, distanciaEntre, pontoMedio } from '../dados'
 import { CORES_AMBIENTE, CORES_ESTADO } from '../config/visuals'
 
 const LARGURA_ASFALTO = 1;
+const LARGURA_CALCADA = 0.3;
 const ELEVACAO_ASFALTO = 0.02;
+const ELEVACAO_CALCADA = 0.01;
 const ELEVACAO_LINHA = 0.08;
 
 interface RuaViariaProps {
@@ -31,7 +33,7 @@ export function RuaViaria({ rua, inicio, fim, naRota }: RuaViariaProps) {
       new THREE.Vector3(...fim),
     ]);
     const material = new THREE.LineBasicMaterial({
-      color: naRota ? CORES_ESTADO.rota : '#64748b',
+      color: naRota ? CORES_ESTADO.rotaCaminho : CORES_ESTADO.rota,
     });
     return new THREE.Line(geometry, material);
   }, [inicio, fim, naRota]);
@@ -48,6 +50,23 @@ export function RuaViaria({ rua, inicio, fim, naRota }: RuaViariaProps) {
             metalness={0}
           />
         </mesh>
+
+        {/* Calçadas horizontais nas bordas laterais do asfalto */}
+        {[-1, 1].map((lado) => (
+          <mesh
+            key={lado}
+            position={[0, ELEVACAO_CALCADA - ELEVACAO_ASFALTO, lado * ((LARGURA_ASFALTO + LARGURA_CALCADA) / 2)]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            receiveShadow
+          >
+            <planeGeometry args={[comprimento, LARGURA_CALCADA]} />
+            <meshStandardMaterial
+              color={CORES_AMBIENTE.calcada}
+              roughness={0.85}
+              metalness={0}
+            />
+          </mesh>
+        ))}
       </group>
 
       {/* Linha de destaque do trajeto (translada só o eixo Y para levantar do asfalto) */}
