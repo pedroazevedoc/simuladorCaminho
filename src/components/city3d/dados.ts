@@ -1,4 +1,4 @@
-export type Coordenada3D = [number, number, number];
+import { Coordenada3D } from "@/types/city";
 
 // Distância euclidiana entre dois pontos (as coordenadas ficam no plano XZ)
 export function distanciaEntre(inicio: Coordenada3D, fim: Coordenada3D): number {
@@ -44,25 +44,3 @@ export function isRuaNaRota(
 export function isLocalNaRota(caminhoIds: string[], value: string): boolean {
   return caminhoIds.includes(value);
 }
-
-// Posições fixas (determinísticas) dos elementos de entorno — evitam o uso
-// de Math.random durante o render (regra react-hooks/purity do lint).
-export const ARVORES: [number, number][] = [
-  [-32, -25],
-  [-31, 16],
-  [-22, 5],
-  [22, 20],
-  [29, 9],
-  [-14, -29],
-  [11, -27],
-  [34, -4],
-  [5, 25],
-  [-7, 23],
-];
-
-export const POSTES: [number, number][] = [
-  [-23, -5],
-  [20, -13],
-  [-16, 2],
-  [27, 14],
-];

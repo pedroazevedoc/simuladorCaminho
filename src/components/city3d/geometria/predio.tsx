@@ -2,14 +2,14 @@
 
 import { useMemo, useState } from 'react'
 import { Html } from '@react-three/drei'
-import type { Local } from '@/types/city'
 import { CONFIG_TIPO, CONFIG_TELHADO, CORES_AMBIENTE, CORES_ESTADO, resolverDimensoes } from '../config/visuals'
 import { Telhado } from './telhado'
+import { LocalProps } from '@/types/city'
 
 const ELEVACAO_LOTE = 0.005;
 
 interface PredioProps {
-  local: Local;
+  local: LocalProps;
   isOrigem: boolean;
   isDestino: boolean;
   naRota: boolean;

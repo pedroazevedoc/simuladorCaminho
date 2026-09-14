@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { locais, ruas } from '@/mocks/cityMocks';
 import { RequisicaoRota, RespostaRota } from '@/types/city';
+import { LOCAIS, RUAS } from '@/mocks/cityMocks';
 
 interface GrafoAdjacencia {
   [key: string]: { 
@@ -12,9 +12,9 @@ interface GrafoAdjacencia {
 function calcularDijkstra(origemId: string, destinoId: string): RespostaRota {
   // 1. Construir lista de adjacência (Grafo não direcionado)
   const grafo: GrafoAdjacencia = {};
-  locais.forEach(loc => { grafo[loc.value] = {}; });
+  LOCAIS.forEach(loc => { grafo[loc.value] = {}; });
   
-  ruas.forEach(rua => {
+  RUAS.forEach(rua => {
     grafo[rua.origem][rua.destino] = rua.peso;
     grafo[rua.destino][rua.origem] = rua.peso; // Não direcionado
   });
@@ -22,9 +22,9 @@ function calcularDijkstra(origemId: string, destinoId: string): RespostaRota {
   // 2. Estruturas para rastrear distâncias e caminhos
   const distancias: Record<string, number> = {};
   const anteriores: Record<string, string | null> = {};
-  const naoVisitados = new Set<string>(locais.map(l => l.value));
+  const naoVisitados = new Set<string>(LOCAIS.map(l => l.value));
 
-  locais.forEach(loc => {
+  LOCAIS.forEach(loc => {
     distancias[loc.value] = Infinity;
     anteriores[loc.value] = null;
   });
