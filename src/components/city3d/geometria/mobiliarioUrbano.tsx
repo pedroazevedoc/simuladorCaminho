@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react'
 import { CARROS_CORES, CORES_AMBIENTE } from '../config/visuals'
+import { ladoDaEntradaEstacionamento } from '../dados'
 import { CarroProps, EstacionamentoProps } from '@/types/city';
 import { CARROS, ESTACIONAMENTOS } from '@/mocks/cityMocks';
 
@@ -10,6 +11,10 @@ const ELEVACAO_CARRO = 0.15;
 const LARGURA_RISCO = 0.07;
 const LARGURA_VAGA = 1.15;
 const COMPRIMENTO_VAGA = 1.5;
+const ELEVACAO_MURO = 0.015;
+const ALTURA_MURO = 0.3;
+const ESPESSURA_MURO = 0.03;
+const LARGURA_ENTRADA = 2;
 
 // Carro estacionado: carroceria colorida + cabine escura
 function Carro({ carro }: { carro: CarroProps }) {
@@ -41,15 +46,8 @@ function Estacionamento({
     const sin = Math.sin(estacao.rotacao);
 
     // Carros do pátio, convertidos para o espaço local do estacionamento
+    // (rotação aplicada antes do filtro, já que o pátio pode não estar alinhado ao mundo)
     const locais = carros
-      .filter((carro) => {
-        const meioLargura = estacao.largura / 2;
-        const meioProfundidade = estacao.profundidade / 2;
-        return (
-          Math.abs(carro.x - estacao.x) <= meioLargura &&
-          Math.abs(carro.z - estacao.z) <= meioProfundidade
-        );
-      })
       .map((carro) => {
         const dx = carro.x - estacao.x;
         const dz = carro.z - estacao.z;
@@ -57,7 +55,12 @@ function Estacionamento({
           x: dx * cos - dz * sin,
           z: dx * sin + dz * cos,
         };
-      });
+      })
+      .filter(
+        ({ x, z }) =>
+          Math.abs(x) <= estacao.largura / 2 &&
+          Math.abs(z) <= estacao.profundidade / 2
+      );
 
     if (locais.length === 0) return { verticais: [], horizontais: [] };
 
@@ -140,6 +143,71 @@ function Estacionamento({
   );
 }
 
+// Muro que cerca o estacionamento, com um vão no lado da entrada (rua mais próxima)
+function MuroEstacionamento({ estacao }: { estacao: EstacionamentoProps }) {
+  const entrada = ladoDaEntradaEstacionamento(estacao);
+
+  const meioLargura = estacao.largura / 2;
+  const meioProfundidade = estacao.profundidade / 2;
+  const meioVao = LARGURA_ENTRADA / 2;
+
+  const pecas: {
+    posicao: [number, number, number];
+    dimensoes: [number, number, number];
+  }[] = [];
+
+  // Paredes ao longo de X (frente e fundo), em Z = ∓meioProfundidade
+  const empilharEmZ = (z: number, xInicio: number, xFim: number) => {
+    const comprimento = xFim - xInicio;
+    pecas.push({
+      posicao: [(xInicio + xFim) / 2, ALTURA_MURO / 2, z],
+      dimensoes: [comprimento, ALTURA_MURO, ESPESSURA_MURO],
+    });
+  };
+
+  // Paredes ao longo de Z (laterais), em X = ∓meioLargura
+  const empilharEmX = (x: number, zInicio: number, zFim: number) => {
+    const comprimento = zFim - zInicio;
+    pecas.push({
+      posicao: [x, ALTURA_MURO / 2, (zInicio + zFim) / 2],
+      dimensoes: [ESPESSURA_MURO, ALTURA_MURO, comprimento],
+    });
+  };
+
+  for (const sinal of [-1, 1]) {
+    const comVao = entrada.eixo === 'z' && sinal === entrada.sinal;
+    const z = sinal * meioProfundidade;
+    if (comVao) {
+      empilharEmZ(z, -meioLargura, -meioVao);
+      empilharEmZ(z, meioVao, meioLargura);
+    } else {
+      empilharEmZ(z, -meioLargura, meioLargura);
+    }
+  }
+
+  for (const sinal of [-1, 1]) {
+    const comVao = entrada.eixo === 'x' && sinal === entrada.sinal;
+    const x = sinal * meioLargura;
+    if (comVao) {
+      empilharEmX(x, -meioProfundidade, -meioVao);
+      empilharEmX(x, meioVao, meioProfundidade);
+    } else {
+      empilharEmX(x, -meioProfundidade, meioProfundidade);
+    }
+  }
+
+  return (
+    <group position={[estacao.x, ELEVACAO_MURO, estacao.z]} rotation={[0, estacao.rotacao, 0]}>
+      {pecas.map((peca, i) => (
+        <mesh key={i} position={peca.posicao} castShadow receiveShadow>
+          <boxGeometry args={peca.dimensoes} />
+          <meshStandardMaterial color={CORES_AMBIENTE.muro} roughness={0.9} metalness={0} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 export function MobiliarioUrbano() {
   return (
     <>
@@ -152,6 +220,9 @@ export function MobiliarioUrbano() {
       ))}
       {CARROS.map((carro, i) => (
         <Carro key={i} carro={carro} />
+      ))}
+      {ESTACIONAMENTOS.map((estacao) => (
+        <MuroEstacionamento key={`muro-${estacao.x}-${estacao.z}`} estacao={estacao} />
       ))}
     </>
   );

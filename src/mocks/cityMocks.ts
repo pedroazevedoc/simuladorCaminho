@@ -62,43 +62,49 @@ export const POSTES: [number, number][] = [
   [27, 14],
 ];
 
-// Áreas de estacionamento (pátio pintado no solo, com riscos de vagas)
+// Áreas de estacionamento:
 export const ESTACIONAMENTOS: EstacionamentoProps[] = [
-  { x: 17.75, z: 8.25, rotacao: 0,  largura: 6,   profundidade: 3 }, // Shopping Center
-  { x: 25.5,  z: -6.5, rotacao: 0,  largura: 5,   profundidade: 3 }, // Faculdade
-  { x: 14.05, z: -15,  rotacao: 0,  largura: 9.1, profundidade: 3 }, // Hospital
-  { x: -25.5, z: 2.8,  rotacao: 11, largura: 5,   profundidade: 3 }, // Escola Municipal
+  { x: 15.68, z: 10.01,  rotacao: 0.838,  largura: 6,   profundidade: 3 }, // Shopping Center
+  { x: 24.80, z: -5.15,  rotacao: 1.134,  largura: 5,   profundidade: 3 }, // Faculdade
+  { x: 14.08, z: -15.15, rotacao: -0.165, largura: 9.1, profundidade: 3 }, // Hospital
+  { x: -25.5, z: 2.40,   rotacao: -1.984, largura: 5,   profundidade: 3 }, // Escola Municipal
 ];
 
-// Carros estacionados: posição fixa, rotação (em torno de Y) e índice da cor na paleta
+// Carros estacionados
 export const CARROS: CarroProps[] = [
   // Shopping Center
-  { x: 16.14, z: 9, rotacao: -Math.PI / 2, cor: 0 },
-  { x: 17.14, z: 9, rotacao: -Math.PI / 2, cor: 1 },
-  { x: 18.14, z: 9, rotacao: -Math.PI / 2, cor: 2 },
-  { x: 19.14, z: 9, rotacao: -Math.PI / 2, cor: 3 },
-  { x: 20.14, z: 9, rotacao: -Math.PI / 2, cor: 4 },
+  // X: Aumenta | Z: Diminui
+  { x: 14.65, z: 12.25, rotacao: Math.PI / 2 + 0.838, cor: 0 },
+  { x: 15.30, z: 11.50, rotacao: Math.PI / 2 + 0.838, cor: 1 },
+  { x: 15.95, z: 10.80, rotacao: Math.PI / 2 + 0.838, cor: 2 },
+  { x: 16.60, z: 10.10, rotacao: Math.PI / 2 + 0.838, cor: 3 },
+  { x: 17.20, z: 9.45,  rotacao: Math.PI / 2 + 0.838, cor: 4 },
+  { x: 17.85, z: 8.75,  rotacao: Math.PI / 2 + 0.838, cor: 5 },
 
-  // Faculdade
-  { x: 24.4, z: -5.7, rotacao: -Math.PI / 2, cor: 5 },
-  { x: 25.4, z: -5.7, rotacao: -Math.PI / 2, cor: 6 },
-  { x: 26.4, z: -5.7, rotacao: -Math.PI / 2, cor: 7 },
-  { x: 27.4, z: -5.7, rotacao: -Math.PI / 2, cor: 8 },
+  // Faculdade 
+  // X: Aumenta | Z: Aumenta
+  { x: 24.7, z: -3.18,  rotacao: Math.PI / 2 + 1.134, cor: 5 },
+  { x: 25.08, z: -4,    rotacao: Math.PI / 2 + 1.134, cor: 6 },
+  { x: 25.42, z: -4.8,  rotacao: Math.PI / 2 + 1.134, cor: 7 },
+  { x: 25.88, z: -5.62, rotacao: Math.PI / 2 + 1.134, cor: 8 },
+  { x: 26.30, z: -6.52, rotacao: Math.PI / 2 + 1.134, cor: 9 },
 
   // Hospital
-  { x: 10.11, z: -15.8, rotacao: -Math.PI / 2, cor: 1 },
-  { x: 10.99, z: -15.8, rotacao: -Math.PI / 2, cor: 2 },
-  { x: 11.99, z: -15.8, rotacao: -Math.PI / 2, cor: 3 },
-  { x: 12.99, z: -15.8, rotacao: -Math.PI / 2, cor: 4 },
-  { x: 13.99, z: -15.8, rotacao: -Math.PI / 2, cor: 5 },
-  { x: 14.99, z: -15.8, rotacao: -Math.PI / 2, cor: 6 },
-  { x: 15.99, z: -15.8, rotacao: -Math.PI / 2, cor: 7 },
-  { x: 16.99, z: -15.8, rotacao: -Math.PI / 2, cor: 8 },
-  { x: 17.99, z: -15.8, rotacao: -Math.PI / 2, cor: 9 },
-  
+  { x: 10.43, z: -16.54, rotacao: Math.PI / 2 - 0.165, cor: 1 },
+  { x: 11.32, z: -16.39, rotacao: Math.PI / 2 - 0.165, cor: 2 },
+  { x: 12.21, z: -16.24, rotacao: Math.PI / 2 - 0.165, cor: 3 },
+  { x: 13.10, z: -16.09, rotacao: Math.PI / 2 - 0.165, cor: 4 },
+  { x: 13.99, z: -15.94, rotacao: Math.PI / 2 - 0.165, cor: 5 },
+  { x: 14.88, z: -15.79, rotacao: Math.PI / 2 - 0.165, cor: 6 },
+  { x: 15.77, z: -15.64, rotacao: Math.PI / 2 - 0.165, cor: 7 },
+  { x: 16.66, z: -15.49, rotacao: Math.PI / 2 - 0.165, cor: 8 },
+  { x: 17.55, z: -15.34, rotacao: Math.PI / 2 - 0.165, cor: 9 },
+
   // Escola Municipal
-  { x: -26.3, z: 1.3, rotacao: 0, cor: 0 },
-  { x: -26.3, z: 2.3, rotacao: 0, cor: 2 },
-  { x: -26.3, z: 3.3, rotacao: 0, cor: 8 },
-  { x: -26.3, z: 4.3, rotacao: 0, cor: 6 },
+  // X: Diminui | Z: Aumenta
+  { x: -25.50, z: 0.35, rotacao: Math.PI / 2 - 1.984, cor: 0 },
+  { x: -25.85, z: 1.20, rotacao: Math.PI / 2 - 1.984, cor: 2 },
+  { x: -26.20, z: 2.00, rotacao: Math.PI / 2 - 1.984, cor: 8 },
+  { x: -26.60, z: 2.90, rotacao: Math.PI / 2 - 1.984, cor: 6 },
+  { x: -27.00, z: 3.80, rotacao: Math.PI / 2 - 1.984, cor: 1 },
 ];
