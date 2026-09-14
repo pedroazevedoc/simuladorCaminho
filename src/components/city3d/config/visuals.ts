@@ -1,4 +1,4 @@
-import type { TipoLocal } from '@/types/city';
+import type { ConfigTelhado, TipoLocal, VisualTipo } from '@/types/city';
 
 // Cores de estado compartilhadas entre os objetos 3D
 export const CORES_ESTADO = {
@@ -64,17 +64,6 @@ export const ROTULO_TIPO: Record<TipoLocal, string> = {
   comercio: 'Comércio',
   shopping: 'Shopping',
 };
-
-// Configuração visual do telhado de cada tipologia
-export interface ConfigTelhado {
-  tipo: 'piramide' | 'laje' | 'laje-elevada';
-  cor: string;
-  altura: number;       // Espessura/altura do telhado
-  saliencia: number;    // O quanto a laje avança além das paredes
-  alturaElevada: number; // Altura do bloco central (apenas laje-elevada)
-  rugosidade: number;
-  metalness: number;
-}
 
 export const CONFIG_TELHADO: Record<TipoLocal, ConfigTelhado> = {
   residencia: {

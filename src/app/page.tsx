@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { locais } from '@/mocks/cityMocks';
 import { RespostaRota } from '@/types/city';
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList, ComboboxTrigger } from '@/components/kibo-ui/combobox';
 import { Header } from '@/components/layouts/header';
@@ -10,6 +9,7 @@ import { ShimmerButton } from '@/components/ui/shimmer-button';
 import { Navigation } from 'lucide-react';
 import { Spinner } from '@/components/kibo-ui/spinner';
 import { Label } from '@/components/ui/label';
+import { LOCAIS } from '@/mocks/cityMocks';
 
 const CityMap3D = dynamic(() => import('@/components/city3d/cityMap3D'), {
   ssr: false,
@@ -22,8 +22,8 @@ const CityMap3D = dynamic(() => import('@/components/city3d/cityMap3D'), {
 });
 
 export default function Home() {
-  const [origem, setOrigem] = useState<string>(locais[0].value);
-  const [destino, setDestino] = useState<string>(locais[4].value);
+  const [origem, setOrigem] = useState<string>(LOCAIS[0].value);
+  const [destino, setDestino] = useState<string>(LOCAIS[4].value);
   const [resultado, setResultado] = useState<RespostaRota | null>(null);
   const [carregando, setCarregando] = useState<boolean>(false);
 
@@ -56,7 +56,7 @@ export default function Home() {
         <div>
           <Label htmlFor="origem" className="text-xs text-primary mb-1">Origem:</Label>
           <Combobox
-            data={locais}
+            data={LOCAIS}
             type="origem"
             onValueChange={setOrigem}
             value={origem}
@@ -67,7 +67,7 @@ export default function Home() {
               <ComboboxEmpty />
               <ComboboxList>
                 <ComboboxGroup>
-                  {locais.map((loc) => (
+                  {LOCAIS.map((loc) => (
                     <ComboboxItem key={loc.value} value={loc.value}>
                       {loc.label}
                     </ComboboxItem>
@@ -82,7 +82,7 @@ export default function Home() {
         <div>
           <Label htmlFor="destino" className="text-xs text-primary mb-1">Destino:</Label>
           <Combobox
-            data={locais}
+            data={LOCAIS}
             type="destino"
             onValueChange={setDestino}
             value={destino}
@@ -93,7 +93,7 @@ export default function Home() {
               <ComboboxEmpty />
               <ComboboxList>
                 <ComboboxGroup>
-                  {locais.map((loc) => (
+                  {LOCAIS.map((loc) => (
                     <ComboboxItem key={loc.value} value={loc.value}>
                       {loc.label}
                     </ComboboxItem>

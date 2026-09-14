@@ -1,8 +1,8 @@
-import { Local, Rua } from '@/types/city';
+import { CarroProps, EstacionamentoProps, LocalProps, RuaProps } from '@/types/city';
 
 // Coordenadas cartesianas (X, Y, Z) de cada local
 // Z = 0 para simular um plano urbano
-export const locais: Local[] = [
+export const LOCAIS: LocalProps[] = [
   { value: 'casa-do-luizinho', label: 'Casa do Luizinho',  posicao: [-18, 0, -9],  tipo: 'residencia' },
   { value: 'casa-dos-amigos',  label: 'Casa dos Amigos',   posicao: [-9, 0, 9],    tipo: 'residencia' },
   { value: 'casa-da-namorada', label: 'Casa da Namorada',  posicao: [9, 0, 14],    tipo: 'residencia' },
@@ -18,7 +18,7 @@ export const locais: Local[] = [
 ];
 
 // As ruas (Arestas) com suas respectivas distâncias (Pesos em km)
-export const ruas: Rua[] = [
+export const RUAS: RuaProps[] = [
   { origem: 'casa-do-luizinho', destino: 'casa-dos-amigos',  peso: 3 },
   { origem: 'casa-do-luizinho', destino: 'comercio',         peso: 4 },
   { origem: 'casa-dos-amigos',  destino: 'casa-da-namorada', peso: 5 },
@@ -38,4 +38,26 @@ export const ruas: Rua[] = [
   { origem: 'hospital',         destino: 'faculdade',        peso: 5 },
   { origem: 'cinema',           destino: 'shopping',         peso: 2 },
   { origem: 'shopping',         destino: 'faculdade',        peso: 4 }
+];
+
+// Posições fixas (determinísticas) dos elementos de entorno — evitam o uso
+// de Math.random durante o render (regra react-hooks/purity do lint).
+export const ARVORES: [number, number][] = [
+  [-32, -25],
+  [-31, 16],
+  [-22, 5],
+  [22, 20],
+  [29, 9],
+  [-14, -29],
+  [11, -27],
+  [34, -4],
+  [5, 25],
+  [-7, 23],
+];
+
+export const POSTES: [number, number][] = [
+  [-23, -5],
+  [20, -13],
+  [-16, 2],
+  [27, 14],
 ];
