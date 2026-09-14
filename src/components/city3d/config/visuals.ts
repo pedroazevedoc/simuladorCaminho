@@ -16,6 +16,9 @@ export const CORES_AMBIENTE = {
   chaoSecundario: '#1e293b',
   asfalto: '#475569',     // Cor padrão das ruas
   calcada: '#94a3b8',     // Cor das calçadas laterais
+  grama: '#166534',       // Canteiros e praça verde do parque
+  lote: '#263244',        // Base de concreto dos lotes dos prédios
+  trilha: '#cda97a',      // Trilha de terra dentro do parque
   vegetacao: '#15803d',   // Árvores e vegetação do entorno
   tronco: '#7c4a26',      // Troncos das árvores
   poste: '#64748b',       // Postes de iluminação
