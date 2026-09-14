@@ -50,6 +50,7 @@ export function CityScene({ rotaResultado, onSelecionarLocal }: CityMap3DProps) 
           inicio={inicio.posicao}
           fim={destino.posicao}
           naRota={isRuaNaRota(caminhoIds, rua.origem, rua.destino)}
+          rotaAtiva={rotaResultado !== null}
         />
       ))}
 
