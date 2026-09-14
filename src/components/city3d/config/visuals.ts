@@ -19,23 +19,26 @@ export const CORES_AMBIENTE = {
   lote: '#263244',        // Base de concreto dos lotes dos prédios
   trilha: '#cda97a',      // Trilha de terra dentro do parque
   faixa: '#e2e8f0',       // Marcações de trânsito e faixas de pedestres
+  vaga: '#475569',        // Piso dos estacionamentos
   vegetacao: '#15803d',   // Árvores e vegetação do entorno
   tronco: '#7c4a26',      // Troncos das árvores
   poste: '#64748b',       // Postes de iluminação
   luz: '#fbbf24',         // Luzes de iluminação
 } as const;
 
-// Configuração visual (dimensões e material) de cada tipologia de local
-export interface VisualTipo {
-  dimensoes: {
-    largura: number;
-    altura: number;
-    profundidade: number;
-  };
-  cor: string;
-  rugosidade: number;
-  metalness: number;
-}
+// Paleta de cores da lataria dos carros estacionados
+export const CARROS_CORES = [
+  '#dc2626', // Vermelho
+  '#2563eb', // Azul
+  '#eab308', // Amarelo
+  '#adacac', // Cinza
+  '#16a34a', // Verde
+  '#8b5cf6', // Roxo
+  '#f97316', // Laranja
+  '#db2777', // Rosa
+  '#14b8a6', // Ciano
+  '#a85432', // Marrom
+] as const;
 
 export const CONFIG_TIPO: Record<TipoLocal, VisualTipo> = {
   residencia: {

@@ -52,3 +52,18 @@ export interface ConfigTelhado {
   rugosidade: number;
   metalness: number;
 }
+
+export interface EstacionamentoProps {
+  x: number;
+  z: number;
+  rotacao: number;
+  largura: number;
+  profundidade: number;
+}
+
+export interface CarroProps {
+  x: number;
+  z: number;
+  rotacao: number;
+  cor: number;
+}
