@@ -1,7 +1,7 @@
 'use client'
 
-import type { TipoLocal } from '@/types/city'
-import { CONFIG_TELHADO, type VisualTipo } from '../config/visuals'
+import type { TipoLocal, VisualTipo } from '@/types/city'
+import { CONFIG_TELHADO } from '../config/visuals'
 
 interface TelhadoProps {
   tipo: TipoLocal;

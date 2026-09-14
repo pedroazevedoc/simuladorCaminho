@@ -1,14 +1,14 @@
 'use client'
 
 import { Html } from '@react-three/drei'
-import type { Local } from '@/types/city'
 import { ROTULO_TIPO, CONFIG_TELHADO, resolverDimensoes } from '../config/visuals'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { LocalProps } from '@/types/city'
 
 interface CartaoLocalProps {
-  local: Local;
+  local: LocalProps;
   isOrigem: boolean;
   isDestino: boolean;
   naRota: boolean;

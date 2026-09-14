@@ -3,8 +3,7 @@
 import { useMemo } from 'react'
 import * as THREE from 'three'
 import { Html } from '@react-three/drei'
-import type { Rua } from '@/types/city'
-import type { Coordenada3D } from '../dados'
+import type { Coordenada3D, RuaProps } from '@/types/city'
 import { anguloDaRua, distanciaEntre, pontoMedio } from '../dados'
 import { CORES_AMBIENTE, CORES_ESTADO } from '../config/visuals'
 
@@ -19,7 +18,7 @@ const TAMANHO_TRACO = 0.5;
 const LARGURA_TRACO = 0.07;
 
 interface RuaViariaProps {
-  rua: Rua;
+  rua: RuaProps;
   inicio: Coordenada3D;
   fim: Coordenada3D;
   naRota: boolean;

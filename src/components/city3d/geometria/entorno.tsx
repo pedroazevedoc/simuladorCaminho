@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { ARVORES, POSTES } from '../dados'
 import { CORES_AMBIENTE } from '../config/visuals'
+import { ARVORES, POSTES } from '@/mocks/cityMocks';
 
 interface PosicaoInstancia {
   x: number;

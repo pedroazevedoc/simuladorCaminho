@@ -1,15 +1,16 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { locais, ruas } from '@/mocks/cityMocks'
 import type { CityMap3DProps } from '@/types/city'
 import { Iluminacao } from './ambiente/iluminacao'
 import { Chao } from './ambiente/chao'
 import { Predio } from './geometria/predio'
 import { RuaViaria } from './geometria/rua'
 import { Entorno } from './geometria/entorno'
+import { MobiliarioUrbano } from './geometria/mobiliarioUrbano'
 import { CartaoLocal } from './geometria/cartaoLocal'
 import { isRuaNaRota, isLocalNaRota } from './dados'
+import { LOCAIS, RUAS } from '@/mocks/cityMocks'
 
 export function CityScene({ rotaResultado, onSelecionarLocal }: CityMap3DProps) {
   const caminhoIds = rotaResultado?.caminho ?? [];
@@ -18,10 +19,10 @@ export function CityScene({ rotaResultado, onSelecionarLocal }: CityMap3DProps) 
   // Pré-computa a geometria das ruas (evita recalculo no render)
   const ruasVisiveis = useMemo(
     () =>
-      ruas
+      RUAS
         .map((rua) => {
-          const inicio = locais.find((l) => l.value === rua.origem);
-          const destino = locais.find((l) => l.value === rua.destino);
+          const inicio = LOCAIS.find((l) => l.value === rua.origem);
+          const destino = LOCAIS.find((l) => l.value === rua.destino);
           if (!inicio || !destino) return null;
           return { rua, inicio, destino };
         })
@@ -35,13 +36,14 @@ export function CityScene({ rotaResultado, onSelecionarLocal }: CityMap3DProps) 
     onSelecionarLocal?.(novoValor);
   };
 
-  const localSelecionado = locais.find((l) => l.value === predioSelecionado) ?? null;
+  const localSelecionado = LOCAIS.find((l) => l.value === predioSelecionado) ?? null;
 
   return (
     <>
       <Iluminacao />
       <Chao />
       <Entorno />
+      <MobiliarioUrbano />
 
       {ruasVisiveis.map(({ rua, inicio, destino }) => (
         <RuaViaria
@@ -54,7 +56,7 @@ export function CityScene({ rotaResultado, onSelecionarLocal }: CityMap3DProps) 
         />
       ))}
 
-      {locais.map((local) => (
+      {LOCAIS.map((local) => (
         <Predio
           key={local.value}
           local={local}

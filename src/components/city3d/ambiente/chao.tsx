@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { ARVORES } from '../dados'
 import { CORES_AMBIENTE } from '../config/visuals'
+import { ARVORES } from '@/mocks/cityMocks';
 
 const ELEVACAO_GRAMA = -0.04;
 const ELEVACAO_TRILHA = -0.035;
