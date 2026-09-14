@@ -3,10 +3,11 @@ import type { TipoLocal } from '@/types/city';
 // Cores de estado compartilhadas entre os objetos 3D
 export const CORES_ESTADO = {
   origem: '#f97316',      // Laranja — ponto de partida da rota
-  destino: '#3b82f6',    // Azul — ponto final da rota
+  destino: '#3b82f6',     // Azul — ponto final da rota
   trajeto: '#22c55e',     // Verde — nós visitados no caminho
   selecionado: '#eab308', // Amarelo — local em destaque (interação)
-  rota: '#ef4444',        // Vermelho — ruas que fazem parte do menor caminho
+  rota: '#FFFFFF',        // Branco - todas as ruas da cidade
+  rotaCaminho: '#eab308', // Amarelo — ruas que fazem parte do menor caminho
 } as const;
 
 // Cores do ambiente (entorno)
@@ -14,6 +15,7 @@ export const CORES_AMBIENTE = {
   chao: '#0f172a',        // Tom escuro do solo urbano
   chaoSecundario: '#1e293b',
   asfalto: '#475569',     // Cor padrão das ruas
+  calcada: '#94a3b8',     // Cor das calçadas laterais
   vegetacao: '#15803d',   // Árvores e vegetação do entorno
   tronco: '#7c4a26',      // Troncos das árvores
   poste: '#64748b',       // Postes de iluminação
