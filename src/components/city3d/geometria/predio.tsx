@@ -3,8 +3,10 @@
 import { useMemo, useState } from 'react'
 import { Html } from '@react-three/drei'
 import type { Local } from '@/types/city'
-import { CONFIG_TIPO, CONFIG_TELHADO, CORES_ESTADO, resolverDimensoes } from '../config/visuals'
+import { CONFIG_TIPO, CONFIG_TELHADO, CORES_AMBIENTE, CORES_ESTADO, resolverDimensoes } from '../config/visuals'
 import { Telhado } from './telhado'
+
+const ELEVACAO_LOTE = 0.005;
 
 interface PredioProps {
   local: Local;
@@ -49,6 +51,12 @@ export function Predio({
 
   return (
     <group position={local.posicao}>
+      {/* Base de concreto do lote */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, ELEVACAO_LOTE, 0]} receiveShadow>
+        <planeGeometry args={[dimensoes.largura + 1, dimensoes.profundidade + 1]} />
+        <meshStandardMaterial color={CORES_AMBIENTE.lote} roughness={0.95} metalness={0} />
+      </mesh>
+
       <mesh
         position={[0, dimensoes.altura / 2, 0]}
         castShadow
