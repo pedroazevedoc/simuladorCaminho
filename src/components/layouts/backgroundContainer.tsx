@@ -29,7 +29,7 @@ export function BackgroundContainer({ children }: { children: React.ReactNode })
           x={-1}
           y={-1}
           strokeDasharray="4 2"
-          className="text-foreground/15 mask-[radial-gradient(900px_circle_at_center,white,transparent)]"
+          className="text-foreground/15 mask-[radial-gradient(700px_circle_at_center,white,transparent)]"
         />
         <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-200 h-100 bg-linear-to-tr from-orange-500/15 via-blue-600/10 to-transparent blur-[120px] rounded-full" />
       </div>
