@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { ARVORES, CARROS, POSTES } from '../dados'
+import { ARVORES, POSTES } from '../dados'
 import { CORES_AMBIENTE } from '../config/visuals'
 
 interface PosicaoInstancia {
@@ -56,12 +56,12 @@ export function Entorno() {
     () => ARVORES.map(([x, z]) => ({ x, z, y: 0.45, escala: 1 })),
     []
   );
-  const carros = useMemo(
-    () => CARROS.map(([x, z]) => ({ x, z, y: 0.4, escala: 1 })),
-    []
-  );
   const postes = useMemo(
     () => POSTES.map(([x, z]) => ({ x, z, y: 0.9, escala: 1 })),
+    []
+  );
+  const luzes = useMemo(
+    () => POSTES.map(([x, z]) => ({ x, z, y: 1.8, escala: 1 })),
     []
   );
 
@@ -76,19 +76,19 @@ export function Entorno() {
       {/* Troncos das árvores */}
       <Instancias posicoes={troncos}>
         <cylinderGeometry args={[0.22, 0.3, 0.9, 6]} />
-        <meshStandardMaterial color="#7c4a26" roughness={1} />
-      </Instancias>
-
-      {/* Carros estacionados */}
-      <Instancias posicoes={carros}>
-        <boxGeometry args={[1.6, 0.6, 0.9]} />
-        <meshStandardMaterial color={CORES_AMBIENTE.veiculo} roughness={0.4} metalness={0.2} />
+        <meshStandardMaterial color={CORES_AMBIENTE.tronco} roughness={1} />
       </Instancias>
 
       {/* Postes de iluminação */}
       <Instancias posicoes={postes}>
         <cylinderGeometry args={[0.08, 0.08, 1.8, 6]} />
-        <meshStandardMaterial color="#64748b" roughness={0.6} metalness={0.4} />
+        <meshStandardMaterial color={CORES_AMBIENTE.poste} roughness={0.6} metalness={0.4} />
+      </Instancias>
+
+      {/* Luzes de iluminação */}
+      <Instancias posicoes={luzes}>
+        <sphereGeometry args={[0.1, 8, 6]} />
+        <meshStandardMaterial color={CORES_AMBIENTE.luz} roughness={1} />
       </Instancias>
     </>
   );
