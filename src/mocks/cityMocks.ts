@@ -61,3 +61,44 @@ export const POSTES: [number, number][] = [
   [-16, 2],
   [27, 14],
 ];
+
+// Áreas de estacionamento (pátio pintado no solo, com riscos de vagas)
+export const ESTACIONAMENTOS: EstacionamentoProps[] = [
+  { x: 17.75, z: 8.25, rotacao: 0,  largura: 6,   profundidade: 3 }, // Shopping Center
+  { x: 25.5,  z: -6.5, rotacao: 0,  largura: 5,   profundidade: 3 }, // Faculdade
+  { x: 14.05, z: -15,  rotacao: 0,  largura: 9.1, profundidade: 3 }, // Hospital
+  { x: -25.5, z: 2.8,  rotacao: 11, largura: 5,   profundidade: 3 }, // Escola Municipal
+];
+
+// Carros estacionados: posição fixa, rotação (em torno de Y) e índice da cor na paleta
+export const CARROS: CarroProps[] = [
+  // Shopping Center
+  { x: 16.14, z: 9, rotacao: -Math.PI / 2, cor: 0 },
+  { x: 17.14, z: 9, rotacao: -Math.PI / 2, cor: 1 },
+  { x: 18.14, z: 9, rotacao: -Math.PI / 2, cor: 2 },
+  { x: 19.14, z: 9, rotacao: -Math.PI / 2, cor: 3 },
+  { x: 20.14, z: 9, rotacao: -Math.PI / 2, cor: 4 },
+
+  // Faculdade
+  { x: 24.4, z: -5.7, rotacao: -Math.PI / 2, cor: 5 },
+  { x: 25.4, z: -5.7, rotacao: -Math.PI / 2, cor: 6 },
+  { x: 26.4, z: -5.7, rotacao: -Math.PI / 2, cor: 7 },
+  { x: 27.4, z: -5.7, rotacao: -Math.PI / 2, cor: 8 },
+
+  // Hospital
+  { x: 10.11, z: -15.8, rotacao: -Math.PI / 2, cor: 1 },
+  { x: 10.99, z: -15.8, rotacao: -Math.PI / 2, cor: 2 },
+  { x: 11.99, z: -15.8, rotacao: -Math.PI / 2, cor: 3 },
+  { x: 12.99, z: -15.8, rotacao: -Math.PI / 2, cor: 4 },
+  { x: 13.99, z: -15.8, rotacao: -Math.PI / 2, cor: 5 },
+  { x: 14.99, z: -15.8, rotacao: -Math.PI / 2, cor: 6 },
+  { x: 15.99, z: -15.8, rotacao: -Math.PI / 2, cor: 7 },
+  { x: 16.99, z: -15.8, rotacao: -Math.PI / 2, cor: 8 },
+  { x: 17.99, z: -15.8, rotacao: -Math.PI / 2, cor: 9 },
+  
+  // Escola Municipal
+  { x: -26.3, z: 1.3, rotacao: 0, cor: 0 },
+  { x: -26.3, z: 2.3, rotacao: 0, cor: 2 },
+  { x: -26.3, z: 3.3, rotacao: 0, cor: 8 },
+  { x: -26.3, z: 4.3, rotacao: 0, cor: 6 },
+];
