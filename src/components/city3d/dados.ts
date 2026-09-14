@@ -60,14 +60,6 @@ export const ARVORES: [number, number][] = [
   [-7, 23],
 ];
 
-export const CARROS: [number, number][] = [
-  [9, 0],
-  [-7, 1],
-  [-20, 13],
-  [23, 9],
-  [4, -20],
-];
-
 export const POSTES: [number, number][] = [
   [-23, -5],
   [20, -13],

@@ -15,7 +15,9 @@ export const CORES_AMBIENTE = {
   chaoSecundario: '#1e293b',
   asfalto: '#475569',     // Cor padrão das ruas
   vegetacao: '#15803d',   // Árvores e vegetação do entorno
-  veiculo: '#f59e0b',     // Carros estáticos do entorno
+  tronco: '#7c4a26',      // Troncos das árvores
+  poste: '#64748b',       // Postes de iluminação
+  luz: '#fbbf24',         // Luzes de iluminação
 } as const;
 
 // Configuração visual (dimensões e material) de cada tipologia de local
@@ -72,7 +74,7 @@ export interface ConfigTelhado {
 export const CONFIG_TELHADO: Record<TipoLocal, ConfigTelhado> = {
   residencia: {
     tipo: 'piramide',
-    cor: '#b45309',
+    cor: '#314158',
     altura: 1.1,
     saliencia: 0,
     alturaElevada: 0,
