@@ -11,7 +11,7 @@ export const CORES_ESTADO = {
 
 // Cores do ambiente (entorno)
 export const CORES_AMBIENTE = {
-  chao: '#0f172a',        // Tom escuro do solo urbano
+  chao: '#166534',        // Tom escuro do solo urbano
   chaoSecundario: '#1e293b',
   asfalto: '#475569',     // Cor padrão das ruas
   calcada: '#94a3b8',     // Cor das calçadas laterais
