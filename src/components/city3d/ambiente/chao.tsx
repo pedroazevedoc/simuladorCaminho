@@ -49,23 +49,6 @@ export function Chao() {
 
       {/* Canteiros de grama ao redor das árvores */}
       <Canteiros posicoes={ARVORES} />
-
-      {/* Praça verde do Parque Central com trilhas de terra cruzadas */}
-      <group position={[PARQUE_CENTRAL.x, 0, PARQUE_CENTRAL.z]}>
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, ELEVACAO_GRAMA, 0]} receiveShadow>
-          <planeGeometry args={[PARQUE_CENTRAL.largura, PARQUE_CENTRAL.profundidade]} />
-          <meshStandardMaterial color={CORES_AMBIENTE.grama} roughness={1} metalness={0} />
-        </mesh>
-
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, ELEVACAO_TRILHA, 0]} receiveShadow>
-          <planeGeometry args={[PARQUE_CENTRAL.largura, 0.8]} />
-          <meshStandardMaterial color={CORES_AMBIENTE.trilha} roughness={1} metalness={0} />
-        </mesh>
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, ELEVACAO_TRILHA, 0]} receiveShadow>
-          <planeGeometry args={[0.8, PARQUE_CENTRAL.profundidade]} />
-          <meshStandardMaterial color={CORES_AMBIENTE.trilha} roughness={1} metalness={0} />
-        </mesh>
-      </group>
     </>
   );
 }

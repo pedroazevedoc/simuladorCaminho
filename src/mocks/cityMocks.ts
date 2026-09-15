@@ -9,7 +9,7 @@ export const LOCAIS: LocalProps[] = [
   { value: 'comercio',         label: 'Comércio Central',  posicao: [0, 0, -4],    tipo: 'comercio' },
   { value: 'shopping',         label: 'Shopping Center',   posicao: [18, 0, 4],    tipo: 'shopping' },
   { value: 'escola',           label: 'Escola Municipal',  posicao: [-25, 0, 7],   tipo: 'comercio' },
-  { value: 'parque',           label: 'Parque Central',    posicao: [-4, 0, 14],   tipo: 'comercio' },
+  { value: 'parque',           label: 'Parque Central',    posicao: [-3, 0, 20],   tipo: 'comercio' },
   { value: 'hospital',         label: 'Hospital Geral',    posicao: [7, 0, -14],   tipo: 'comercio' },
   { value: 'faculdade',        label: 'Faculdade',         posicao: [25, 0, -11],  tipo: 'comercio' },
   { value: 'rodoviaria',       label: 'Rodoviária',        posicao: [-11, 0, -22], tipo: 'comercio' },
