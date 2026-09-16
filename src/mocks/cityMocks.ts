@@ -17,27 +17,29 @@ export const LOCAIS: LocalProps[] = [
   { value: 'cinema',           label: 'Cinema',            posicao: [14, 0, -5],   tipo: 'shopping' }
 ];
 
-// As ruas (Arestas) com suas respectivas distâncias (Pesos em km)
+// As ruas (Arestas) com suas respectivas distâncias (Pesos em km).
+// Os pesos foram derivados da distância euclidiana real entre as posições
+// (`posicao`) de cada local no grid, com escala de 0,5 km por unidade.
 export const RUAS: RuaProps[] = [
-  { origem: 'casa-do-luizinho', destino: 'casa-dos-amigos',  peso: 3 },
-  { origem: 'casa-do-luizinho', destino: 'comercio',         peso: 4 },
-  { origem: 'casa-dos-amigos',  destino: 'casa-da-namorada', peso: 5 },
-  { origem: 'comercio',         destino: 'shopping',         peso: 6 },
-  { origem: 'casa-da-namorada', destino: 'shopping',         peso: 2 },
-  { origem: 'comercio',         destino: 'casa-da-namorada', peso: 3 },
-  { origem: 'casa-do-luizinho', destino: 'padaria',          peso: 2 },
-  { origem: 'padaria',          destino: 'rodoviaria',       peso: 4 },
-  { origem: 'rodoviaria',       destino: 'comercio',         peso: 3 },
-  { origem: 'casa-do-luizinho', destino: 'escola',           peso: 3 },
-  { origem: 'escola',           destino: 'casa-dos-amigos',  peso: 4 },
-  { origem: 'casa-dos-amigos',  destino: 'parque',           peso: 2 },
-  { origem: 'parque',           destino: 'casa-da-namorada', peso: 3 },
-  { origem: 'comercio',         destino: 'parque',           peso: 4 },
-  { origem: 'comercio',         destino: 'hospital',         peso: 3 },
-  { origem: 'hospital',         destino: 'cinema',           peso: 2 },
-  { origem: 'hospital',         destino: 'faculdade',        peso: 5 },
-  { origem: 'cinema',           destino: 'shopping',         peso: 2 },
-  { origem: 'shopping',         destino: 'faculdade',        peso: 4 }
+  { origem: 'casa-do-luizinho', destino: 'casa-dos-amigos',  peso: 10.1 },
+  { origem: 'casa-do-luizinho', destino: 'comercio',         peso: 9.3 },
+  { origem: 'casa-dos-amigos',  destino: 'casa-da-namorada', peso: 9.3 },
+  { origem: 'comercio',         destino: 'shopping',         peso: 9.8 },
+  { origem: 'casa-da-namorada', destino: 'shopping',         peso: 6.7 },
+  { origem: 'comercio',         destino: 'casa-da-namorada', peso: 10.1 },
+  { origem: 'casa-do-luizinho', destino: 'padaria',          peso: 7.1 },
+  { origem: 'padaria',          destino: 'rodoviaria',       peso: 9.2 },
+  { origem: 'rodoviaria',       destino: 'comercio',         peso: 10.5 },
+  { origem: 'casa-do-luizinho', destino: 'escola',           peso: 8.7 },
+  { origem: 'escola',           destino: 'casa-dos-amigos',  peso: 8.1 },
+  { origem: 'casa-dos-amigos',  destino: 'parque',           peso: 6.3 },
+  { origem: 'parque',           destino: 'casa-da-namorada', peso: 6.7 },
+  { origem: 'comercio',         destino: 'parque',           peso: 12.1 },
+  { origem: 'comercio',         destino: 'hospital',         peso: 6.1 },
+  { origem: 'hospital',         destino: 'cinema',           peso: 5.7 },
+  { origem: 'hospital',         destino: 'faculdade',        peso: 9.1 },
+  { origem: 'cinema',           destino: 'shopping',         peso: 4.9 },
+  { origem: 'shopping',         destino: 'faculdade',        peso: 8.3 }
 ];
 
 // Posições fixas (determinísticas) dos elementos de entorno — evitam o uso
