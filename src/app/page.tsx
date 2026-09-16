@@ -42,7 +42,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen text-foreground p-4 sm:p-8 flex flex-col items-center">
+    <main className="relative min-h-screen text-foreground p-4 sm:p-8 flex flex-col items-center space-y-4">
       <Header
         title="Simulador Cidade do Luizinho"
         subtitle="Algoritmo do Menor Caminho (Teoria dos Grafos)"
@@ -58,8 +58,8 @@ export default function Home() {
       />
 
       {resultado && (
-        <div className="mb-4 text-emerald-500 font-semibold bg-emerald-950/60 border border-emerald-800/50 px-4 py-2 rounded-md">
-          Distância Total: {resultado.distanciaTotal} km
+        <div className="text-emerald-500 font-semibold bg-emerald-500/20 dark:bg-emerald-950/60 border border-emerald-800/50 px-4 py-2 rounded-md">
+          Distância Total: {resultado?.distanciaTotal} km
         </div>
       )}
 
