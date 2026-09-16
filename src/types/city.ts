@@ -1,4 +1,13 @@
-export type TipoLocal = 'residencia' | 'comercio' | 'shopping';
+export type TipoLocal =
+  | 'residencia'
+  | 'comercio'
+  | 'shopping'
+  | 'escola'
+  | 'faculdade'
+  | 'hospital'
+  | 'parque'
+  | 'rodoviaria'
+  | 'cinema';
 
 export type Coordenada3D = [number, number, number];
 

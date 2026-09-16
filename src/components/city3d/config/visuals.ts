@@ -58,6 +58,42 @@ export const CONFIG_TIPO: Record<TipoLocal, VisualTipo> = {
     rugosidade: 0.6,
     metalness: 0.3,
   },
+  escola: {
+    dimensoes: { largura: 6, altura: 2.2, profundidade: 4 },
+    cor: '#d9b99b',
+    rugosidade: 0.8,
+    metalness: 0.1,
+  },
+  faculdade: {
+    dimensoes: { largura: 5, altura: 4, profundidade: 5 },
+    cor: '#b6c7d9',
+    rugosidade: 0.7,
+    metalness: 0.2,
+  },
+  hospital: {
+    dimensoes: { largura: 4, altura: 3, profundidade: 4 },
+    cor: '#f3f4f6',
+    rugosidade: 0.75,
+    metalness: 0.1,
+  },
+  parque: {
+    dimensoes: { largura: 2.6, altura: 2, profundidade: 2.6 },
+    cor: '#7aa776',
+    rugosidade: 0.85,
+    metalness: 0.05,
+  },
+  rodoviaria: {
+    dimensoes: { largura: 5.5, altura: 3.2, profundidade: 5.5 },
+    cor: '#9aa4b0',
+    rugosidade: 0.7,
+    metalness: 0.2,
+  },
+  cinema: {
+    dimensoes: { largura: 4.2, altura: 3, profundidade: 3.6 },
+    cor: '#3b4252',
+    rugosidade: 0.6,
+    metalness: 0.3,
+  },
 };
 
 // Rótulos em pt-BR de cada tipologia (usados no cartão de informações)
@@ -65,6 +101,12 @@ export const ROTULO_TIPO: Record<TipoLocal, string> = {
   residencia: 'Residência',
   comercio: 'Comércio',
   shopping: 'Shopping',
+  escola: 'Escola',
+  faculdade: 'Faculdade',
+  hospital: 'Hospital',
+  parque: 'Parque',
+  rodoviaria: 'Rodoviária',
+  cinema: 'Cinema',
 };
 
 export const CONFIG_TELHADO: Record<TipoLocal, ConfigTelhado> = {
@@ -95,13 +137,64 @@ export const CONFIG_TELHADO: Record<TipoLocal, ConfigTelhado> = {
     rugosidade: 0.6,
     metalness: 0.3,
   },
+  escola: {
+    tipo: 'laje',
+    cor: '#8a5a44',
+    altura: 0.16,
+    saliencia: 0.35,
+    alturaElevada: 0,
+    rugosidade: 0.8,
+    metalness: 0.1,
+  },
+  faculdade: {
+    tipo: 'laje-elevada',
+    cor: '#5a6b7c',
+    altura: 0.2,
+    saliencia: 0.4,
+    alturaElevada: 0.7,
+    rugosidade: 0.6,
+    metalness: 0.2,
+  },
+  hospital: {
+    tipo: 'laje',
+    cor: '#94a3b8',
+    altura: 0.18,
+    saliencia: 0.35,
+    alturaElevada: 0,
+    rugosidade: 0.75,
+    metalness: 0.15,
+  },
+  parque: {
+    tipo: 'laje',
+    cor: '#4d7c4f',
+    altura: 0.15,
+    saliencia: 0.3,
+    alturaElevada: 0,
+    rugosidade: 0.85,
+    metalness: 0.05,
+  },
+  rodoviaria: {
+    tipo: 'laje-elevada',
+    cor: '#64748b',
+    altura: 0.22,
+    saliencia: 0.45,
+    alturaElevada: 0.8,
+    rugosidade: 0.65,
+    metalness: 0.25,
+  },
+  cinema: {
+    tipo: 'laje',
+    cor: '#1f2937',
+    altura: 0.2,
+    saliencia: 0.4,
+    alturaElevada: 0,
+    rugosidade: 0.6,
+    metalness: 0.3,
+  },
 };
 
 // Exceções de dimensões para locais específicos que devem fugir do padrão do tipo
-export const EXCECOES_DIMENSOES: Record<string, VisualTipo['dimensoes']> = {
-  faculdade: { largura: 5, altura: 4, profundidade: 5 },
-  hospital: { largura: 4, altura: 3, profundidade: 4 },
-};
+export const EXCECOES_DIMENSOES: Record<string, VisualTipo['dimensoes']> = {};
 
 // Resolve as dimensões efetivas de um local (config do tipo + exceção, se houver)
 export function resolverDimensoes(
