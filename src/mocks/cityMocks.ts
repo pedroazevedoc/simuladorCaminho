@@ -8,13 +8,13 @@ export const LOCAIS: LocalProps[] = [
   { value: 'casa-da-namorada', label: 'Casa da Namorada',  posicao: [9, 0, 14],    tipo: 'residencia' },
   { value: 'comercio',         label: 'Comércio Central',  posicao: [0, 0, -4],    tipo: 'comercio' },
   { value: 'shopping',         label: 'Shopping Center',   posicao: [18, 0, 4],    tipo: 'shopping' },
-  { value: 'escola',           label: 'Escola Municipal',  posicao: [-25, 0, 7],   tipo: 'comercio' },
-  { value: 'parque',           label: 'Parque Central',    posicao: [-3, 0, 20],   tipo: 'comercio' },
-  { value: 'hospital',         label: 'Hospital Geral',    posicao: [7, 0, -14],   tipo: 'comercio' },
-  { value: 'faculdade',        label: 'Faculdade',         posicao: [25, 0, -11],  tipo: 'comercio' },
-  { value: 'rodoviaria',       label: 'Rodoviária',        posicao: [-11, 0, -22], tipo: 'comercio' },
+  { value: 'escola',           label: 'Escola Municipal',  posicao: [-25, 0, 7],   tipo: 'escola' },
+  { value: 'parque',           label: 'Parque Central',    posicao: [-3, 0, 20],   tipo: 'parque' },
+  { value: 'hospital',         label: 'Hospital Geral',    posicao: [7, 0, -14],   tipo: 'hospital' },
+  { value: 'faculdade',        label: 'Faculdade',         posicao: [25, 0, -11],  tipo: 'faculdade' },
+  { value: 'rodoviaria',       label: 'Rodoviária',        posicao: [-11, 0, -22], tipo: 'rodoviaria' },
   { value: 'padaria',          label: 'Padaria do Bairro', posicao: [-29, 0, -18], tipo: 'comercio' },
-  { value: 'cinema',           label: 'Cinema',            posicao: [14, 0, -5],   tipo: 'shopping' }
+  { value: 'cinema',           label: 'Cinema',            posicao: [14, 0, -5],   tipo: 'cinema' }
 ];
 
 // As ruas (Arestas) com suas respectivas distâncias (Pesos em km).
@@ -47,7 +47,7 @@ export const RUAS: RuaProps[] = [
 export const ARVORES: [number, number][] = [
   [-32, -25],
   [-31, 16],
-  [-22, 5],
+  [-20, 6],
   [22, 20],
   [29, 9],
   [-14, -29],
@@ -66,10 +66,10 @@ export const POSTES: [number, number][] = [
 
 // Áreas de estacionamento:
 export const ESTACIONAMENTOS: EstacionamentoProps[] = [
-  { x: 15.68, z: 10.01,  rotacao: 0.838,  largura: 6,   profundidade: 3 }, // Shopping Center
-  { x: 24.80, z: -5.15,  rotacao: 1.134,  largura: 5,   profundidade: 3 }, // Faculdade
-  { x: 14.08, z: -15.15, rotacao: -0.165, largura: 9.1, profundidade: 3 }, // Hospital
-  { x: -25.5, z: 2.40,   rotacao: -1.984, largura: 5,   profundidade: 3 }, // Escola Municipal
+  { x: 15.68,  z: 10.01,  rotacao: 0.838,  largura: 6,   profundidade: 3 }, // Shopping Center
+  { x: 24.80,  z: -5.15,  rotacao: 1.134,  largura: 5,   profundidade: 3 }, // Faculdade
+  { x: 14.08,  z: -15.15, rotacao: -0.165, largura: 9.1, profundidade: 3 }, // Hospital
+  { x: -25.32, z: 2,      rotacao: -1.984, largura: 5,   profundidade: 3 }, // Escola Municipal
 ];
 
 // Carros estacionados
@@ -85,9 +85,9 @@ export const CARROS: CarroProps[] = [
 
   // Faculdade 
   // X: Aumenta | Z: Aumenta
-  { x: 24.7, z: -3.18,  rotacao: Math.PI / 2 + 1.134, cor: 5 },
-  { x: 25.08, z: -4,    rotacao: Math.PI / 2 + 1.134, cor: 6 },
-  { x: 25.42, z: -4.8,  rotacao: Math.PI / 2 + 1.134, cor: 7 },
+  { x: 24.70, z: -3.18, rotacao: Math.PI / 2 + 1.134, cor: 5 },
+  { x: 25.08, z: -4.00, rotacao: Math.PI / 2 + 1.134, cor: 6 },
+  { x: 25.42, z: -4.80, rotacao: Math.PI / 2 + 1.134, cor: 7 },
   { x: 25.88, z: -5.62, rotacao: Math.PI / 2 + 1.134, cor: 8 },
   { x: 26.30, z: -6.52, rotacao: Math.PI / 2 + 1.134, cor: 9 },
 
@@ -104,9 +104,9 @@ export const CARROS: CarroProps[] = [
 
   // Escola Municipal
   // X: Diminui | Z: Aumenta
-  { x: -25.50, z: 0.35, rotacao: Math.PI / 2 - 1.984, cor: 0 },
-  { x: -25.85, z: 1.20, rotacao: Math.PI / 2 - 1.984, cor: 2 },
-  { x: -26.20, z: 2.00, rotacao: Math.PI / 2 - 1.984, cor: 8 },
-  { x: -26.60, z: 2.90, rotacao: Math.PI / 2 - 1.984, cor: 6 },
-  { x: -27.00, z: 3.80, rotacao: Math.PI / 2 - 1.984, cor: 1 },
+  { x: -25.2, z: 0.0, rotacao: Math.PI / 2 - 1.984, cor: 0 },
+  { x: -25.6, z: 0.9, rotacao: Math.PI / 2 - 1.984, cor: 2 },
+  { x: -26.0, z: 1.8, rotacao: Math.PI / 2 - 1.984, cor: 8 },
+  { x: -26.4, z: 2.6, rotacao: Math.PI / 2 - 1.984, cor: 6 },
+  { x: -26.8, z: 3.4, rotacao: Math.PI / 2 - 1.984, cor: 1 },
 ];
