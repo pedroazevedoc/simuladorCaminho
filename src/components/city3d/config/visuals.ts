@@ -1,4 +1,16 @@
 import type { ConfigTelhado, TipoLocal, VisualTipo } from '@/types/city';
+import {
+  Bus,
+  Clapperboard,
+  GraduationCap,
+  Home,
+  Hospital,
+  School,
+  ShoppingBag,
+  Store,
+  TreePine,
+  type LucideIcon,
+} from 'lucide-react';
 
 // Cores de estado compartilhadas entre os objetos 3D
 export const CORES_ESTADO = {
@@ -94,6 +106,19 @@ export const CONFIG_TIPO: Record<TipoLocal, VisualTipo> = {
     rugosidade: 0.6,
     metalness: 0.3,
   },
+};
+
+// Ícones de cada tipologia (usados no rótulo dos prédios e no cartão de informações)
+export const ICONE_TIPO: Record<TipoLocal, LucideIcon> = {
+  residencia: Home,
+  comercio: Store,
+  shopping: ShoppingBag,
+  escola: School,
+  faculdade: GraduationCap,
+  hospital: Hospital,
+  parque: TreePine,
+  rodoviaria: Bus,
+  cinema: Clapperboard,
 };
 
 // Rótulos em pt-BR de cada tipologia (usados no cartão de informações)
