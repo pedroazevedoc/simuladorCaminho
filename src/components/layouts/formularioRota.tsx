@@ -7,7 +7,7 @@ import { FormularioRotaProps } from '@/types/layouts';
 
 export function FormularioRota({ origem, destino, carregando, onOrigemChange, onDestinoChange, onCalcular }: FormularioRotaProps) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 my-6 space-y-2 gap-2 bg-card p-3 rounded-lg border border-border shadow-lg max-w-4xl">
+    <div className="grid grid-cols-2 sm:grid-cols-3 space-y-2 gap-2 bg-card p-3 rounded-lg border border-border shadow-lg max-w-4xl">
       {/* Origem */}
       <div className="flex flex-col">
         <Label htmlFor="origem" className="text-xs text-primary mb-1">Origem:</Label>
