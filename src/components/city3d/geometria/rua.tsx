@@ -103,7 +103,7 @@ export function RuaViaria({ rua, inicio, fim, naRota, rotaAtiva }: RuaViariaProp
 
       {/* Rótulo da quilometragem */}
       <Html position={[meio[0], 0.5, meio[2]]} center distanceFactor={25} zIndexRange={[10, 0]}>
-        <div className="bg-card/90 text-card-foreground border border-border text-[10px] font-bold px-1.5 py-0.5 rounded shadow pointer-events-none whitespace-nowrap select-none">
+        <div className="bg-card/80 text-card-foreground/70 border border-border text-[10px] font-bold px-1.5 py-0.5 rounded shadow pointer-events-none whitespace-nowrap select-none">
           {rua.peso} km
         </div>
       </Html>
