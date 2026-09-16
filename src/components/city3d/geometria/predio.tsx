@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { Html } from '@react-three/drei'
-import { CONFIG_TIPO, CONFIG_TELHADO, CORES_AMBIENTE, CORES_ESTADO, resolverDimensoes } from '../config/visuals'
+import { CONFIG_TIPO, CONFIG_TELHADO, CORES_AMBIENTE, CORES_ESTADO, ICONE_TIPO, resolverDimensoes } from '../config/visuals'
 import { Telhado } from './telhado'
 import { LocalProps } from '@/types/city'
 
@@ -36,6 +36,7 @@ export function Predio({
   }, [local]);
 
   const telhado = CONFIG_TELHADO[local.tipo];
+  const Icone = ICONE_TIPO[local.tipo];
   const topoTelhado = dimensoes.altura + telhado.altura + telhado.alturaElevada;
 
   // Precedência de cor do predio: origem > destino > selecionado > naRota > cor padrão do tipo
@@ -92,8 +93,9 @@ export function Predio({
         distanceFactor={25}
         zIndexRange={[11, 0]}
       >
-        <div className="bg-card/90 text-card-foreground border border-border text-xs font-semibold px-2 py-1 rounded-md shadow-md pointer-events-none whitespace-nowrap select-none">
-          {local.label}
+        <div className="flex items-center gap-1.5 bg-card/90 text-card-foreground border border-border text-xs font-semibold px-2 py-1 rounded-md shadow-md pointer-events-none whitespace-nowrap select-none">
+          <Icone className="w-3.5 h-3.5 shrink-0 text-primary" />
+          <span>{local.label}</span>
         </div>
       </Html>
     </group>

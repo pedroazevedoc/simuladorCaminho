@@ -1,7 +1,7 @@
 'use client'
 
 import { Html } from '@react-three/drei'
-import { ROTULO_TIPO, CONFIG_TELHADO, resolverDimensoes } from '../config/visuals'
+import { ROTULO_TIPO, CONFIG_TELHADO, ICONE_TIPO, resolverDimensoes } from '../config/visuals'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -17,6 +17,7 @@ interface CartaoLocalProps {
 export function CartaoLocal({ local, isOrigem, isDestino, naRota }: CartaoLocalProps) {
   const dimensoes = resolverDimensoes(local.tipo, local.value);
   const telhado = CONFIG_TELHADO[local.tipo];
+  const Icone = ICONE_TIPO[local.tipo];
   const topoTelhado = dimensoes.altura + telhado.altura + telhado.alturaElevada;
   const status = isOrigem
     ? { texto: 'Origem da rota', classe: 'bg-orange-500 text-white' }
@@ -35,7 +36,10 @@ export function CartaoLocal({ local, isOrigem, isDestino, naRota }: CartaoLocalP
     >
       <Card size="sm" className="min-w-48 pointer-events-none shadow-xl">
         <CardHeader>
-          <CardTitle>{local.label}</CardTitle>
+          <CardTitle className="flex items-center gap-1.5">
+            <Icone className="w-4 h-4 shrink-0 text-primary" />
+            {local.label}
+          </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
           <div className="flex items-center gap-1.5">
