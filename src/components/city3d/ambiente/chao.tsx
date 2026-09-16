@@ -6,11 +6,7 @@ import { CORES_AMBIENTE } from '../config/visuals'
 import { ARVORES } from '@/mocks/cityMocks';
 
 const ELEVACAO_GRAMA = -0.04;
-const ELEVACAO_TRILHA = -0.035;
 const RAIO_CANTEIRO = 1.02;
-
-// Praça verde do Parque Central
-const PARQUE_CENTRAL = { x: -4, z: 18.5, largura: 9, profundidade: 6 } as const;
 
 // Instanciador de geometrias circulares dos canteiros de grama
 function Canteiros({ posicoes }: { posicoes: [number, number][] }) {
