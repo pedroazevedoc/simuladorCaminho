@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { RequisicaoRota, RespostaRota } from '@/types/city';
+import { RequisicaoRota, RespostaRota, RuaProps } from '@/types/city';
 import { LOCAIS, RUAS } from '@/mocks/cityMocks';
+import { aplicarPesos, chaveRua } from '@/lib/ruas';
 
 interface GrafoAdjacencia {
   [key: string]: { 
@@ -8,13 +9,48 @@ interface GrafoAdjacencia {
   };
 }
 
+const LOCAIS_CONHECIDOS = new Set(LOCAIS.map((local) => local.value));
+const CHAVES_CONHECIDAS = new Set(
+  RUAS.map((rua) => chaveRua(rua.origem, rua.destino))
+);
+
+// Aplica os custos enviados pelo cliente, aceitando apenas vias que existem no
+// grafo e valores válidos (finitos e > 0). Entradas inválidas são ignoradas:
+// o cliente nunca define a topologia do grafo, apenas o custo das arestas.
+function resolverRuas(entrada: unknown): RuaProps[] {
+  const pesos = new Map<string, number>();
+
+  if (Array.isArray(entrada)) {
+    for (const item of entrada as unknown[]) {
+      if (typeof item !== 'object' || item === null) continue;
+
+      const { origem, destino, peso } = item as Partial<RuaProps>;
+      if (typeof origem !== 'string' || typeof destino !== 'string') continue;
+
+      const chave = chaveRua(origem, destino);
+      if (!CHAVES_CONHECIDAS.has(chave)) continue;
+
+      const valor = Number(peso);
+      if (!Number.isFinite(valor) || valor <= 0) continue;
+
+      pesos.set(chave, valor);
+    }
+  }
+
+  return aplicarPesos(pesos);
+}
+
 // Algoritmo de Dijkstra
-function calcularDijkstra(origemId: string, destinoId: string): RespostaRota {
+function calcularDijkstra(
+  origemId: string,
+  destinoId: string,
+  ruas: RuaProps[]
+): RespostaRota {
   // 1. Construir lista de adjacência (Grafo não direcionado)
   const grafo: GrafoAdjacencia = {};
   LOCAIS.forEach(loc => { grafo[loc.value] = {}; });
   
-  RUAS.forEach(rua => {
+  ruas.forEach(rua => {
     grafo[rua.origem][rua.destino] = rua.peso;
     grafo[rua.destino][rua.origem] = rua.peso; // Não direcionado
   });
@@ -72,13 +108,28 @@ function calcularDijkstra(origemId: string, destinoId: string): RespostaRota {
 
 // Endpoint POST para calcular a rota entre dois locais
 export async function POST(request: Request) {
-  const body: RequisicaoRota = await request.json();
-  const { origem, destino } = body;
+  let body: RequisicaoRota;
+
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { error: 'Corpo da requisição inválido' },
+      { status: 400 }
+    );
+  }
+
+  const { origem, destino } = body ?? {};
 
   if (!origem || !destino) {
     return NextResponse.json({ error: 'Origem e Destino são obrigatórios' }, { status: 400 });
   }
 
-  const resultado = calcularDijkstra(origem, destino);
+  if (!LOCAIS_CONHECIDOS.has(origem) || !LOCAIS_CONHECIDOS.has(destino)) {
+    return NextResponse.json({ error: 'Origem ou Destino desconhecido' }, { status: 400 });
+  }
+
+  const ruas = resolverRuas(body.ruas);
+  const resultado = calcularDijkstra(origem, destino, ruas);
   return NextResponse.json(resultado);
 }
