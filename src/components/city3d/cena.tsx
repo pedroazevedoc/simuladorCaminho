@@ -10,16 +10,17 @@ import { Entorno } from './geometria/entorno'
 import { MobiliarioUrbano } from './geometria/mobiliarioUrbano'
 import { CartaoLocal } from './geometria/cartaoLocal'
 import { isRuaNaRota, isLocalNaRota } from './dados'
-import { LOCAIS, RUAS } from '@/mocks/cityMocks'
+import { LOCAIS } from '@/mocks/cityMocks'
 
-export function CityScene({ rotaResultado, onSelecionarLocal }: CityMap3DProps) {
+export function CityScene({ rotaResultado, ruas, onSelecionarLocal }: CityMap3DProps) {
   const caminhoIds = rotaResultado?.caminho ?? [];
   const [predioSelecionado, setPredioSelecionado] = useState<string | null>(null);
 
-  // Pré-computa a geometria das ruas (evita recalculo no render)
+  // Pré-computa a geometria das ruas (evita recalculo no render).
+  // Depende de `ruas` para refletir os custos editados (rótulo e espessura).
   const ruasVisiveis = useMemo(
     () =>
-      RUAS
+      ruas
         .map((rua) => {
           const inicio = LOCAIS.find((l) => l.value === rua.origem);
           const destino = LOCAIS.find((l) => l.value === rua.destino);
@@ -27,7 +28,7 @@ export function CityScene({ rotaResultado, onSelecionarLocal }: CityMap3DProps) 
           return { rua, inicio, destino };
         })
         .filter((r): r is NonNullable<typeof r> => r !== null),
-    []
+    [ruas]
   );
 
   const atualizarSelecao = (value: string) => {

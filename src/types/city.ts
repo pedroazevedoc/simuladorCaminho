@@ -27,6 +27,9 @@ export interface RuaProps {
 export interface RequisicaoRota {
   origem: string;
   destino: string;
+  // Custos editados pelo usuário. Ausente = usa os pesos padrão do mock.
+  // Só o custo das arestas é editável: a topologia e as posições são fixas.
+  ruas?: RuaProps[];
 }
 
 export interface RespostaRota {
@@ -36,6 +39,8 @@ export interface RespostaRota {
 
 export interface CityMap3DProps {
   rotaResultado: RespostaRota | null;
+  // Custos efetivos das vias (permite que o mapa reflita as edições do usuário)
+  ruas: RuaProps[];
   onSelecionarLocal?: (value: string | null) => void;
 }
 
