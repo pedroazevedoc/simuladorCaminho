@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 # Simulador Cidade do Luizinho — Menor Rota com Dijkstra
 
 Aplicação web interativa para simular e visualizar o cálculo da menor rota entre pontos de interesse em um mapa urbano fictício. O projeto foi desenvolvido para a matéria de **Matemática Computacional**, aplicando os conceitos fundamentais da **Teoria dos Grafos**.
@@ -130,3 +132,7 @@ O projeto utiliza a arquitetura Full-Stack integrada do Next.js, separando expli
 - **Grafo Ponderado**: Cada aresta possui um peso $w(e)$ equivalente à distância em quilômetros.
 - **Algoritmo de Dijkstra**: Garante a determinação do caminho de custo mínimo acumulado entre a origem e o destino escolhidos.
 - **Mapeamento Cartesiano**: Cada nó possui coordenadas fixas $(X, Y, Z)$ para evitar sobreposição de linhas e garantir estabilidade visual.
+
+## Licença
+
+Distribuído sob a licença MIT. Veja [LICENSE](LICENSE) para mais detalhes.

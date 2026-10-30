@@ -1,7 +1,19 @@
 {
   "name": "simulador-caminho",
   "version": "2.0.0",
+  "description": "Simulador de Caminho: Plataforma interativa para simulação de trajetos em ambientes urbanos, utilizando o algoritmo de Dijkstra.",
   "private": true,
+  "homepage": "https://simulador-caminho.vercel.app",
+  "license": "MIT",
+  "author": {
+    "name": "Pedro Azevedo Costa",
+    "email": "pedroazvdo.8@gmail.com",
+    "url": "https://pedroazevedoc.vercel.app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedroazevedoc/simuladorCaminho.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
