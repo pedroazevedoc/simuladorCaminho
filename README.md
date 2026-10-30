@@ -136,3 +136,8 @@ O projeto utiliza a arquitetura Full-Stack integrada do Next.js, separando expli
 ## Licença
 
 Distribuído sob a licença MIT. Veja [LICENSE](LICENSE) para mais detalhes.
+
+
+## Segurança
+
+Para reportar uma vulnerabilidade, **não abra uma issue pública**. Consulte [SECURITY.md](SECURITY.md) e use o relato privado do GitHub.
