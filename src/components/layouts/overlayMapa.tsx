@@ -71,7 +71,7 @@ export function OverlayMapa({ resultado, carregando, onAbrirPainel }: OverlayMap
         </div>
       )}
 
-      <div className="pointer-events-none absolute bottom-3 left-3 z-10 hidden w-[17rem] rounded-lg border border-border bg-card/90 px-3 py-2 text-card-foreground shadow-lg backdrop-blur-md sm:block">
+      <div className="pointer-events-none absolute bottom-3 left-3 z-10 hidden w-68 rounded-lg border border-border bg-card/90 px-3 py-2 text-card-foreground shadow-lg backdrop-blur-md sm:block">
         <h2 className="mb-1.5 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
           Legenda
         </h2>

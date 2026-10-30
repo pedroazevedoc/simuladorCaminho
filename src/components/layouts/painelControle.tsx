@@ -86,7 +86,7 @@ export function PainelControleDrawer({
 }: PainelControleDrawerProps) {
   return (
     <Drawer open={aberto} onOpenChange={onAbertoChange} showSwipeHandle>
-      <DrawerContent className="lg:hidden [&_[data-slot=drawer-swipe-handle]]:after:bg-foreground/30">
+      <DrawerContent className="lg:hidden **:data-[slot=drawer-swipe-handle]:after:bg-foreground/30">
         <DrawerHeader className="flex-row items-start justify-between gap-3 border-b border-border/60 pb-3 text-left">
           <div className="min-w-0">
             <DrawerTitle>Painel de Controle</DrawerTitle>
@@ -102,7 +102,7 @@ export function PainelControleDrawer({
           </DrawerClose>
         </DrawerHeader>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 [scrollbar-width:thin]">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 [scrollbar-thin]">
           <PainelControle {...props} className={className} />
         </div>
       </DrawerContent>
