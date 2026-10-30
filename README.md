@@ -38,10 +38,13 @@ O projeto utiliza a arquitetura Full-Stack integrada do Next.js, separando expli
   │   │   ├── api/
   │   │   │   └── rota/
   │   │   │       └── route.ts       # Backend Node.js: Executa o Algoritmo de Dijkstra
-  │   │   ├── page.tsx               # Frontend UI: Seletores 2D e Painel de Controle
+  │   │   ├── page.tsx               # Frontend UI: shell, painel lateral e mapa
   │   │   └── layout.tsx
   │   ├── components/
-  │   │   └── cityMap3D.tsx          # Renderização Three.js: Nós, Ruas e Etiquetas 3D
+  │   │   ├── city3d/                # Cena, câmera e geometria Three.js
+  │   │   ├── layouts/               # Cabeçalho, painel, overlay do mapa e rodapé
+  │   │   ├── kibo-ui/               # Combobox, theme switcher, spinner
+  │   │   └── ui/                    # Componentes shadcn (@base-ui/react)
   │   ├── mocks/
   │   │   └── cityMocks.ts           # Modelagem do Grafo (Vértices, Arestas e Coordenadas)
   │   └── types/
@@ -97,20 +100,27 @@ O projeto utiliza a arquitetura Full-Stack integrada do Next.js, separando expli
 
 ## Como usar:
 
-1. No painel superior, selecione o ponto de Origem (ex: Casa do Luizinho).
+1. No **Painel de Controle**, selecione o ponto de Origem (ex: Casa do Luizinho).
 
 2. Selecione o ponto de Destino (ex: Shopping Center).
 
 3. Clique no botão Calcular Menor Rota.
 
 4. Observe a resposta:
-   - A distância total (km) será exibida no painel.
-   - O mapa 3D destacará o trajeto ideal em vermelho.
+   - O custo total e o trajeto calculado aparecem no cartão **Resultado** do painel.
+   - O mapa 3D destaca o trajeto em amarelo (ruas), laranja (origem), verde (pontos do caminho) e azul (destino).
 
-5. Interação no Mapa 3D:
-   - Rotacionar Câmera: Clique e arraste com o botão esquerdo do mouse.
-   - Pan / Mover Câmera: Clique e arraste com o botão direito do mouse.
-   - Zoom: Utilizar a barra de rolagem (scroll) do mouse.
+5. Ajuste o custo de uma via no formulário **Custo das vias** (o mapa e a rota são atualizados automaticamente após o cálculo).
+
+6. Interação no Mapa 3D:
+   - Rotacionar câmera: arraste com o botão esquerdo do mouse (ou um dedo no celular).
+   - Pan / mover câmera: arraste com o botão direito do mouse.
+   - Zoom: use a rolagem do mouse ou o gesto de pinça.
+   - Detalhes de um local: clique/toque no prédio para abrir o cartão de informações.
+
+> **Layout responsivo:** em telas grandes o Painel de Controle fica fixo na lateral esquerda (cerca de 25% da largura) e o mapa ocupa o restante. Em telas menores, o painel vira um *drawer* inferior aberto pelo botão **Controles**, preservando a área do mapa.
+
+> **Legenda do mapa:** o canto inferior esquerdo separa **Edifícios e pontos** (cores de origem, destino, trajeto e seleção) de **Ruas e arestas** (linha amarela contínua da rota e linha tracejada das vias fora da rota).
 
 ---
 
