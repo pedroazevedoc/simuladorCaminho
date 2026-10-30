@@ -12,7 +12,9 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 
-// Cores de estado compartilhadas entre os objetos 3D
+// Cores de estado compartilhadas entre os objetos 3D.
+// Espelhadas em globals.css (--origem, --destino, --trajeto, --selecionado,
+// --rota e --asfalto) para manter a legenda e a UI coerentes com a cena.
 export const CORES_ESTADO = {
   origem: '#f97316',      // Laranja — ponto de partida da rota
   destino: '#3b82f6',     // Azul — ponto final da rota
