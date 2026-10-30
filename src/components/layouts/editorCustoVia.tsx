@@ -196,6 +196,7 @@ export function EditorCustoVia({ ruas, onAlterarPeso, onRestaurar }: EditorCusto
         }
       />
 
+      {/* Informação sobre as vias disponíveis */}
       {!rua && (
         <div className="text-[11px] text-muted-foreground space-y-1">
           <p>
@@ -218,19 +219,25 @@ export function EditorCustoVia({ ruas, onAlterarPeso, onRestaurar }: EditorCusto
         </div>
       )}
 
+      {/* Informação sobre as vias editadas */}
       {editadas.length > 0 && (
-        <ul className="flex flex-wrap gap-1.5 text-[11px]">
-          {editadas.map((r) => (
-            <li
+        <div className="text-[11px] text-muted-foreground space-y-1">
+          <p>
+            {editadas.length} via{editadas.length > 1 ? 's' : ''} editada{editadas.length > 1 ? 's' : ''}:
+          </p>
+          <ul className="flex flex-wrap gap-1.5 text-[11px]">
+            {editadas.map((r) => (
+              <li
               key={chaveRua(r.origem, r.destino)}
               className="px-1.5 py-0.5 rounded border border-border bg-muted/40 text-muted-foreground"
-            >
-              {nomeLocal(r.origem)} ↔ {nomeLocal(r.destino)}:{' '}
-              <span className="line-through">{formatarPeso(pesoPadrao(r.origem, r.destino) ?? r.peso)}</span>{' '}
-              → <strong className="text-foreground">{formatarPeso(r.peso)}</strong>
-            </li>
-          ))}
-        </ul>
+              >
+                {nomeLocal(r.origem)} ↔ {nomeLocal(r.destino)}:{' '}
+                <span className="line-through">{formatarPeso(pesoPadrao(r.origem, r.destino) ?? r.peso)}</span>{' '}
+                → <strong className="text-foreground">{formatarPeso(r.peso)}</strong>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   )
