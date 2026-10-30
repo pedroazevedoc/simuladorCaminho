@@ -104,55 +104,88 @@ export function EditorCustoVia({ ruas, onAlterarPeso, onRestaurar }: EditorCusto
   }
 
   return (
-    <div className="w-full max-w-4xl bg-card p-3 rounded-lg border border-border shadow-lg space-y-3">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <SlidersHorizontal className="size-4 text-primary" />
-        <h2 className="text-xs font-semibold text-primary uppercase tracking-wide">Custo das vias</h2>
-        <span className="text-[11px] text-muted-foreground">
-          Altere o custo de uma rua: a cidade não se move, apenas a espessura da via e o cálculo da rota mudam.
-        </span>
-      </div>
+    <section
+      aria-labelledby="custo-vias-titulo"
+      className="w-full rounded-xl border border-border/70 bg-card p-3.5 shadow-sm"
+    >
+      <header className="mb-3 flex items-start justify-between gap-2">
+        <div className="flex min-w-0 items-start gap-2">
+          <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <SlidersHorizontal className="size-4" aria-hidden="true" />
+          </span>
+          <div className="min-w-0">
+            <h2 id="custo-vias-titulo" className="text-sm font-semibold text-foreground">
+              Custo das vias
+            </h2>
+            <p className="text-xs leading-snug text-muted-foreground">
+              Ajuste o peso de uma rua: só a espessura e o cálculo mudam.
+            </p>
+          </div>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 items-end">
-        <div className="flex flex-col">
-          <Label className="text-xs text-primary mb-1">De:</Label>
-          <Combobox data={LOCAIS} type="origem" value={origem} onValueChange={setOrigem}>
-            <ComboboxTrigger />
-            <ComboboxContent>
-              <ComboboxInput />
-              <ComboboxList>
-                {LOCAIS.map((loc) => (
-                  <ComboboxItem key={loc.value} value={loc.value}>
-                    {loc.label}
-                  </ComboboxItem>
-                ))}
-              </ComboboxList>
-            </ComboboxContent>
-          </Combobox>
+        <Button
+          type="button"
+          variant="ghost"
+          size="xs"
+          onClick={onRestaurar}
+          disabled={editadas.length === 0}
+          aria-label="Restaurar custos padrão de todas as vias"
+          title="Restaurar padrão"
+          className="shrink-0 text-muted-foreground hover:text-foreground"
+        >
+          <RotateCcw />
+          <span className="hidden min-[380px]:inline">Restaurar</span>
+        </Button>
+      </header>
+
+      <div className="space-y-3">
+        <div className="grid grid-cols-1 gap-3">
+          <div className="flex flex-col">
+            <Label htmlFor="via-origem" className="mb-1.5 text-xs font-medium text-foreground">
+              De
+            </Label>
+            <Combobox data={LOCAIS} type="origem" value={origem} onValueChange={setOrigem}>
+              <ComboboxTrigger id="via-origem" className="w-full" />
+              <ComboboxContent>
+                <ComboboxInput />
+                <ComboboxList>
+                  {LOCAIS.map((loc) => (
+                    <ComboboxItem key={loc.value} value={loc.value}>
+                      {loc.label}
+                    </ComboboxItem>
+                  ))}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </div>
+
+          <div className="flex flex-col">
+            <Label htmlFor="via-destino" className="mb-1.5 text-xs font-medium text-foreground">
+              Até
+            </Label>
+            <Combobox data={LOCAIS} type="destino" value={destino} onValueChange={setDestino}>
+              <ComboboxTrigger id="via-destino" className="w-full" />
+              <ComboboxContent>
+                <ComboboxInput />
+                <ComboboxList>
+                  {LOCAIS.map((loc) => (
+                    <ComboboxItem key={loc.value} value={loc.value}>
+                      {loc.label}
+                    </ComboboxItem>
+                  ))}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </div>
         </div>
 
         <div className="flex flex-col">
-          <Label className="text-xs text-primary mb-1">Até:</Label>
-          <Combobox data={LOCAIS} type="destino" value={destino} onValueChange={setDestino}>
-            <ComboboxTrigger />
-            <ComboboxContent>
-              <ComboboxInput />
-              <ComboboxList>
-                {LOCAIS.map((loc) => (
-                  <ComboboxItem key={loc.value} value={loc.value}>
-                    {loc.label}
-                  </ComboboxItem>
-                ))}
-              </ComboboxList>
-            </ComboboxContent>
-          </Combobox>
-        </div>
-
-        <div className="flex flex-col">
-          <Label htmlFor="custo-via" id="custo-via-label" className="text-xs text-primary mb-1">
-            Custo:
+          <Label htmlFor="custo-via" id="custo-via-label" className="mb-1.5 text-xs font-medium text-foreground">
+            Custo da via
             {padrao !== undefined && (
-              <span className="ml-1 font-normal text-muted-foreground">(padrão {formatarPeso(padrao)})</span>
+              <span className="ml-1 font-normal text-muted-foreground">
+                (padrão {formatarPeso(padrao)})
+              </span>
             )}
           </Label>
           <Input
@@ -167,42 +200,31 @@ export function EditorCustoVia({ ruas, onAlterarPeso, onRestaurar }: EditorCusto
             aria-invalid={foraDaFaixa}
             onChange={(e) => aplicar(e.target.value)}
             onBlur={() => setAjuste(null)}
+            className="tabular-nums"
           />
         </div>
 
-        <div className="flex items-center sm:justify-end">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onRestaurar}
-            disabled={editadas.length === 0}
-            className="w-full sm:w-auto"
-          >
-            <RotateCcw />
-            Restaurar padrão
-          </Button>
-        </div>
+        <Slider
+          aria-labelledby="custo-via-label"
+          value={[valorSlider]}
+          min={PESO_MIN}
+          max={PESO_MAX}
+          step={PESO_PASSO}
+          disabled={!rua}
+          onValueChange={(valor) =>
+            aplicarSlider(typeof valor === 'number' ? valor : valor[0])
+          }
+        />
       </div>
-
-      <Slider
-        aria-labelledby="custo-via-label"
-        value={[valorSlider]}
-        min={PESO_MIN}
-        max={PESO_MAX}
-        step={PESO_PASSO}
-        disabled={!rua}
-        onValueChange={(valor) =>
-          aplicarSlider(typeof valor === 'number' ? valor : valor[0])
-        }
-      />
 
       {/* Informação sobre as vias disponíveis */}
       {!rua && (
-        <div className="text-[11px] text-muted-foreground space-y-1">
+        <div className="mt-3 rounded-lg border border-dashed border-border bg-muted/30 p-2.5 text-[11px] text-muted-foreground space-y-1.5">
           <p>
-            Não há rua direta entre <strong className="text-foreground">{nomeLocal(origem)}</strong> e{' '}
-            <strong className="text-foreground">{nomeLocal(destino)}</strong>. Vias disponíveis a partir de{' '}
-            {nomeLocal(origem)}:
+            Não há rua direta entre{' '}
+            <strong className="text-foreground">{nomeLocal(origem)}</strong> e{' '}
+            <strong className="text-foreground">{nomeLocal(destino)}</strong>. Vias
+            disponíveis a partir de {nomeLocal(origem)}:
           </p>
           <div className="flex flex-wrap gap-1">
             {vizinhos.map((value) => (
@@ -210,7 +232,7 @@ export function EditorCustoVia({ ruas, onAlterarPeso, onRestaurar }: EditorCusto
                 key={value}
                 type="button"
                 onClick={() => setDestino(value)}
-                className="px-1.5 py-0.5 rounded border border-border text-foreground hover:bg-muted transition-colors cursor-pointer"
+                className="rounded border border-border px-1.5 py-0.5 text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 cursor-pointer"
               >
                 {nomeLocal(value)}
               </button>
@@ -221,24 +243,27 @@ export function EditorCustoVia({ ruas, onAlterarPeso, onRestaurar }: EditorCusto
 
       {/* Informação sobre as vias editadas */}
       {editadas.length > 0 && (
-        <div className="text-[11px] text-muted-foreground space-y-1">
-          <p>
-            {editadas.length} via{editadas.length > 1 ? 's' : ''} editada{editadas.length > 1 ? 's' : ''}:
+        <div className="mt-3 space-y-1.5">
+          <p className="text-[11px] text-muted-foreground">
+            {editadas.length} via{editadas.length > 1 ? 's' : ''} editada
+            {editadas.length > 1 ? 's' : ''}:
           </p>
           <ul className="flex flex-wrap gap-1.5 text-[11px]">
             {editadas.map((r) => (
               <li
-              key={chaveRua(r.origem, r.destino)}
-              className="px-1.5 py-0.5 rounded border border-border bg-muted/40 text-muted-foreground"
+                key={chaveRua(r.origem, r.destino)}
+                className="rounded border border-border bg-muted/40 px-1.5 py-0.5 text-muted-foreground"
               >
                 {nomeLocal(r.origem)} ↔ {nomeLocal(r.destino)}:{' '}
-                <span className="line-through">{formatarPeso(pesoPadrao(r.origem, r.destino) ?? r.peso)}</span>{' '}
+                <span className="line-through">
+                  {formatarPeso(pesoPadrao(r.origem, r.destino) ?? r.peso)}
+                </span>{' '}
                 → <strong className="text-foreground">{formatarPeso(r.peso)}</strong>
               </li>
             ))}
           </ul>
         </div>
       )}
-    </div>
+    </section>
   )
 }
