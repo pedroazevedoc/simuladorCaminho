@@ -1,12 +1,13 @@
 'use client'
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import dynamic from 'next/dynamic';
 import { RequisicaoRota, RespostaRota, RuaProps } from '@/types/city';
 import { Header } from '@/components/layouts/header';
 import { Footer } from '@/components/layouts/footer';
 import { PainelControle, PainelControleDrawer } from '@/components/layouts/painelControle';
 import { OverlayMapa } from '@/components/layouts/overlayMapa';
+import { ModalInformativo } from '@/components/layouts/modalInformativo';
 import { Spinner } from '@/components/kibo-ui/spinner';
 import { LOCAIS, RUAS } from '@/mocks/cityMocks';
 import { chaveRua } from '@/lib/ruas';
@@ -23,6 +24,22 @@ const CityMap3D = dynamic(() => import('@/components/city3d/cityMap3D'), {
 
 // Espera antes de recalcular a rota enquanto o usuário arrasta o slider de custo
 const ESPERA_RECALCULO = 300;
+const CHAVE_ONBOARDING = 'simulador-caminho:onboarding-v1';
+const assinaturaVazia = () => () => {};
+
+function useOnboardingPendente() {
+  return useSyncExternalStore(
+    assinaturaVazia,
+    () => {
+      try {
+        return !window.localStorage.getItem(CHAVE_ONBOARDING);
+      } catch {
+        return true;
+      }
+    },
+    () => false
+  );
+}
 
 export default function Home() {
   const [origem, setOrigem] = useState<string>(LOCAIS[0].value);
@@ -32,7 +49,27 @@ export default function Home() {
   const [resultado, setResultado] = useState<RespostaRota | null>(null);
   const [carregando, setCarregando] = useState<boolean>(false);
   const [painelAberto, setPainelAberto] = useState<boolean>(false);
+  const [modalAberto, setModalAberto] = useState<boolean>(false);
+  const [onboardingConcluido, setOnboardingConcluido] = useState<boolean>(false);
+  const [modalInstancia, setModalInstancia] = useState<number>(0);
   const timerRecalculo = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const onboardingPendente = useOnboardingPendente();
+  const modalVisivel = modalAberto || (onboardingPendente && !onboardingConcluido);
+
+  const marcarOnboardingComoVisto = () => {
+    try {
+      window.localStorage.setItem(CHAVE_ONBOARDING, 'true');
+    } catch {
+      // O modal continua funcionando mesmo quando o armazenamento não está disponível.
+    }
+    setOnboardingConcluido(true);
+    setModalAberto(false);
+  };
+
+  const abrirAjuda = () => {
+    setModalInstancia((instancia) => instancia + 1);
+    setModalAberto(true);
+  };
 
   const calcularRota = async (pesos: RuaProps[]) => {
     setCarregando(true);
@@ -110,6 +147,7 @@ export default function Home() {
       <Header
         title="Simulador Cidade do Luizinho"
         subtitle="Algoritmo do Menor Caminho (Teoria dos Grafos)"
+        onAbrirAjuda={abrirAjuda}
       />
 
       <div className="flex min-h-0 flex-1 gap-3 p-3 sm:gap-4 sm:p-4 lg:p-5">
@@ -144,6 +182,19 @@ export default function Home() {
         {...propsPainel}
         aberto={painelAberto}
         onAbertoChange={setPainelAberto}
+      />
+
+      <ModalInformativo
+        key={modalInstancia}
+        open={modalVisivel}
+        onOpenChange={(aberto) => {
+          if (aberto) {
+            setModalAberto(true);
+          } else {
+            marcarOnboardingComoVisto();
+          }
+        }}
+        onConcluir={marcarOnboardingComoVisto}
       />
     </main>
   );

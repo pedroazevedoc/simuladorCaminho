@@ -3,6 +3,7 @@ import type { RespostaRota, RuaProps } from './city';
 export interface HeaderProps {
   title: string;
   subtitle?: string;
+  onAbrirAjuda?: () => void;
 }
 
 export interface FormularioRotaProps {

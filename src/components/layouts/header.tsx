@@ -1,11 +1,12 @@
 import { HeaderProps } from "@/types/layouts";
 import { ThemeSwitcher } from "../kibo-ui/theme-switcher";
 import { useTheme } from "next-themes";
-import { Route } from "lucide-react";
+import { CircleHelp, Route } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Header(props: HeaderProps) {
   const { theme, setTheme } = useTheme();
-  const { title, subtitle } = props;
+  const { title, subtitle, onAbrirAjuda } = props;
 
   return (
     <header className="z-20 shrink-0 border-b border-border/60 bg-background/70 backdrop-blur-md">
@@ -28,6 +29,19 @@ export function Header(props: HeaderProps) {
             </p>
           )}
         </div>
+
+        {onAbrirAjuda && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={onAbrirAjuda}
+            aria-label="Abrir ajuda sobre o simulador"
+            title="Ajuda sobre o simulador"
+          >
+            <CircleHelp aria-hidden="true" />
+          </Button>
+        )}
 
         <ThemeSwitcher
           value={theme as 'light' | 'dark' | 'system'}
