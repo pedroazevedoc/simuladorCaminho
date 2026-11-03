@@ -49,6 +49,7 @@ export interface PassoDijkstra {
 export interface CityMap3DProps {
   progresso?: number;
   seguir?: boolean;
+  onRestaurarCamera?: () => void;
   noturno?: boolean;
   passo?: PassoDijkstra;
   rotaAnterior?: string[];

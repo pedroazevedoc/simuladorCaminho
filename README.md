@@ -34,7 +34,7 @@ Se as ruas disponíveis não conectarem origem e destino, a aplicação informa 
 
 ### Navegação e representação do mapa
 
-No 3D, arraste com o botão esquerdo para girar, com o direito para deslocar e use a roda do mouse ou pinça para aproximar. Clique em um prédio para ver informações. Quando disponível, o seletor no mapa alterna entre a cidade 3D e o mapa esquemático.
+No 3D, arraste com o botão esquerdo para girar, com o direito para deslocar e use a roda do mouse sobre a área que deseja aproximar ou afastar. Em telas sensíveis ao toque, use a pinça para zoom. **Restaurar visão** volta ao enquadramento inicial e desativa o acompanhamento do carro. Clique em um prédio para ver informações. Quando disponível, o seletor no mapa alterna entre a cidade 3D e o mapa esquemático.
 
 A geometria é **esquemática**: as posições dos locais permanecem fixas, mesmo quando os pesos são editados. A largura da via pode refletir seu custo dentro de uma faixa visual limitada. A animação usa a geometria desenhada; sua velocidade é ilustrativa e não representa km/h.
 

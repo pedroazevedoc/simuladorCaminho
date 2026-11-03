@@ -1,8 +1,10 @@
 'use client'
 
-import { Component, useEffect, useState, type ReactNode } from 'react';
+import { Component, useEffect, useRef, useState, type ComponentRef, type ReactNode } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import { RotateCcw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { CityScene } from './cena';
 import { MapaEsquematico } from './mapaEsquematico';
 import type { CityMap3DProps } from '@/types/city';
@@ -27,6 +29,7 @@ function MonitorContexto({ onPerda }: { onPerda: () => void }) {
 export default function CityMap3D(props: CityMap3DProps) {
   const [suporte, setSuporte] = useState<boolean | null>(null);
   const [modo, setModo] = useState<'3d' | 'mapa'>('3d');
+  const controles = useRef<ComponentRef<typeof OrbitControls>>(null);
   useEffect(() => {
     let ativo = true;
     // Verifica WebGL 2 antes de montar o Fiber, evitando rejeições na inicialização.
@@ -45,16 +48,19 @@ export default function CityMap3D(props: CityMap3DProps) {
   const alternativo = <MapaEsquematico {...props} />;
   return (
     <div className="relative h-full w-full overflow-hidden rounded-2xl border border-slate-700 bg-[#0b1425] shadow-2xl">
-      <div className="absolute left-4 right-4 top-4 z-20 flex items-center justify-between gap-3">
+      <div className="absolute left-4 right-4 top-4 z-20 flex flex-wrap items-center justify-between gap-3">
         <span className="rounded-lg border border-white/10 bg-slate-950/90 px-3 py-2 text-xs text-slate-300">{suporte === false ? 'Mapa interativo · WebGL indisponível neste navegador' : 'Cidade do Luizinho · Explore o percurso'}</span>
-        {suporte && <div className="flex rounded-lg bg-slate-950/90 p-1 text-xs text-white">{(['3d','mapa'] as const).map(item=><button key={item} type="button" aria-pressed={modo===item} onClick={()=>setModo(item)} className={`rounded-md px-3 py-2 ${modo===item ? 'bg-orange-500 text-white' : 'hover:bg-slate-800'}`}>{item==='3d' ? 'Cidade 3D' : 'Mapa'}</button>)}</div>}
+        {suporte && <div className="flex flex-wrap items-center gap-2">
+          {modo === '3d' && <Button type="button" variant="secondary" size="sm" onClick={() => { props.onRestaurarCamera?.(); controles.current?.reset(); }}><RotateCcw data-icon="inline-start" /> Restaurar visão</Button>}
+          <div className="flex rounded-lg bg-slate-950/90 p-1 text-xs text-white">{(['3d','mapa'] as const).map(item=><button key={item} type="button" aria-pressed={modo===item} onClick={()=>setModo(item)} className={`rounded-md px-3 py-2 ${modo===item ? 'bg-orange-500 text-white' : 'hover:bg-slate-800'}`}>{item==='3d' ? 'Cidade 3D' : 'Mapa'}</button>)}</div>
+        </div>}
       </div>
       {suporte === null ? <div className="flex h-full items-center justify-center text-sm text-slate-400">Preparando visualização...</div> : suporte && modo==='3d' ? (
         <ProtecaoMapa fallback={alternativo}>
           <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 48, 52], fov: 45 }} fallback={alternativo}>
             <MonitorContexto onPerda={() => setSuporte(false)} />
             <CityScene {...props} />
-            <OrbitControls makeDefault minDistance={20} maxDistance={110} maxPolarAngle={Math.PI / 2.15} />
+            <OrbitControls ref={controles} makeDefault zoomToCursor minDistance={20} maxDistance={110} maxPolarAngle={Math.PI / 2.15} />
           </Canvas>
         </ProtecaoMapa>
       ) : alternativo}
