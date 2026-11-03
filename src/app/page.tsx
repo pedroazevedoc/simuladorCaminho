@@ -50,6 +50,7 @@ export default function Home() {
   const [ruas, setRuas] = useState<RuaProps[]>(RUAS);
   const [resultado, setResultado] = useState<RespostaRota | null>(null);
   const [carregando, setCarregando] = useState<boolean>(false);
+  const [erroRota, setErroRota] = useState<string | null>(null);
   const [passoIndice, setPassoIndice] = useState(-1);
   const [progresso, setProgresso] = useState(0);
   const [animando, setAnimando] = useState(false);
@@ -96,6 +97,7 @@ export default function Home() {
     }
     const id = ++contadorRequisicao.current;
     setCarregando(true);
+    setErroRota(null);
     try {
       const corpo: RequisicaoRota = { origem, destino, ruas: pesos };
       const response = await fetch('/api/rota', {
@@ -114,7 +116,14 @@ export default function Home() {
       setAnimando(false);
       setProgresso(0);
     } catch (err) {
-      console.error('Erro ao calcular rota:', err);
+      if (id === contadorRequisicao.current) {
+        console.error('Erro ao calcular rota:', err);
+        setResultado(null);
+        setAnterior(null);
+        setAnimando(false);
+        setPassoIndice(-1);
+        setErroRota('Não foi possível calcular a rota. Confira sua conexão e tente novamente.');
+      }
     } finally {
       if (id === contadorRequisicao.current) setCarregando(false);
     }
@@ -147,7 +156,23 @@ export default function Home() {
     agendarRecalculo(RUAS);
   };
 
+  const limparRota = () => {
+    contadorRequisicao.current += 1;
+    if (timerRecalculo.current) clearTimeout(timerRecalculo.current);
+    timerRecalculo.current = null;
+    setResultado(null);
+    setAnterior(null);
+    setErroRota(null);
+    setCarregando(false);
+    setAnimando(false);
+    setProgresso(0);
+    setPassoIndice(-1);
+  };
+  const alterarOrigem = (valor: string) => { if (valor !== origem) { limparRota(); setOrigem(valor); } };
+  const alterarDestino = (valor: string) => { if (valor !== destino) { limparRota(); setDestino(valor); } };
+
   const handleTrocarPontos = () => {
+    limparRota();
     setOrigem(destino);
     setDestino(origem);
   };
@@ -164,8 +189,8 @@ export default function Home() {
     carregando,
     resultado,
     ruas,
-    onOrigemChange: setOrigem,
-    onDestinoChange: setDestino,
+    onOrigemChange: alterarOrigem,
+    onDestinoChange: alterarDestino,
     onTrocarPontos: handleTrocarPontos,
     onCalcular: () => void calcularRota(ruas),
     onAlterarPeso: handleAlterarPeso,
@@ -209,7 +234,7 @@ export default function Home() {
           className="relative h-[min(68vh,640px)] min-h-[380px] overflow-hidden rounded-2xl border border-border/60 shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-ring/60 sm:min-h-[480px]"
         >
           <CityMap3D rotaResultado={resultado} ruas={ruas} onSelecionarLocal={setSelecionado} onAlternarRua={alternarRua} passo={passo} progresso={passo ? undefined : progresso} seguir={seguir} noturno={noturno} rotaAnterior={resultado?.caminho.length ? anterior?.caminho : undefined} />
-          {selecionado && <div className="absolute left-3 top-20 z-20 flex gap-2 rounded-lg border bg-card p-2 text-sm"><span>{LOCAIS.find(l => l.value === selecionado)?.label}</span><button onClick={() => { setOrigem(selecionado); setSelecionado(null); }}>Sair daqui</button><button onClick={() => { setDestino(selecionado); setSelecionado(null); }}>Ir para cá</button></div>}
+          {selecionado && <div className="absolute left-3 top-20 z-20 flex gap-2 rounded-lg border bg-card p-2 text-sm"><span>{LOCAIS.find(l => l.value === selecionado)?.label}</span><button onClick={() => { alterarOrigem(selecionado); setSelecionado(null); }}>Sair daqui</button><button onClick={() => { alterarDestino(selecionado); setSelecionado(null); }}>Ir para cá</button></div>}
           <OverlayMapa
             resultado={resultado}
             carregando={carregando}
@@ -217,6 +242,7 @@ export default function Home() {
           />
         </section>
 
+        {erroRota && <section role="alert" className="rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-foreground shadow-sm sm:p-5"><h2 className="text-base font-semibold">Não foi possível calcular a rota</h2><p className="mt-1 text-sm">{erroRota}</p><Button type="button" variant="outline" className="mt-3" onClick={() => void calcularRota(ruas)}>Tentar novamente</Button></section>}
         {!carregando && resultado && resultado.caminho.length === 0 && (
           <section role="status" className="rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-foreground shadow-sm sm:p-5">
             <h2 className="text-base font-semibold">Viagem impossível</h2>

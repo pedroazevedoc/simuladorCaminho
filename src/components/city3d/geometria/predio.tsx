@@ -100,6 +100,7 @@ export function Predio({
         zIndexRange={[11, 0]}
       >
         <div className="flex items-center gap-1.5 bg-card/90 text-card-foreground border border-border text-xs font-semibold px-2 py-1 rounded-md shadow-md pointer-events-none whitespace-nowrap select-none">
+          {(isOrigem || isDestino) && <span className={isOrigem ? 'rounded bg-orange-500 px-1 text-white' : 'rounded bg-blue-600 px-1 text-white'}>{isOrigem && isDestino ? 'Origem e destino' : isOrigem ? 'Origem' : 'Destino'}</span>}
           <Icone className="w-3.5 h-3.5 shrink-0 text-primary" />
           <span>{local.label}</span>
         </div>
