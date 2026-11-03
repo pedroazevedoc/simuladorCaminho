@@ -8,16 +8,17 @@ import { Predio } from './geometria/predio'
 import { RuaViaria } from './geometria/rua'
 import { Entorno } from './geometria/entorno'
 import { MobiliarioUrbano } from './geometria/mobiliarioUrbano'
+import { VeiculoRota } from './geometria/veiculoRota'
 import { CartaoLocal } from './geometria/cartaoLocal'
 import { isRuaNaRota, isLocalNaRota } from './dados'
-import { LOCAIS } from '@/mocks/cityMocks'
+import { LOCAIS, RUAS } from '@/mocks/cityMocks'
 
-export function CityScene({ rotaResultado, ruas, onSelecionarLocal }: CityMap3DProps) {
+export function CityScene(props: CityMap3DProps) {
+  const { rotaResultado, ruas = RUAS, onSelecionarLocal, onAlternarRua, passo, rotaAnterior, noturno } = props;
   const caminhoIds = rotaResultado?.caminho ?? [];
   const [predioSelecionado, setPredioSelecionado] = useState<string | null>(null);
 
-  // Pré-computa a geometria das ruas (evita recalculo no render).
-  // Depende de `ruas` para refletir os custos editados (rótulo e espessura).
+  // Pré-computa a geometria das ruas (evita recalculo no render)
   const ruasVisiveis = useMemo(
     () =>
       ruas
@@ -41,7 +42,8 @@ export function CityScene({ rotaResultado, ruas, onSelecionarLocal }: CityMap3DP
 
   return (
     <>
-      <Iluminacao />
+      <Iluminacao noturno={noturno} />
+      {!passo && props.progresso !== undefined && <VeiculoRota {...props} />}
       <Chao />
       <Entorno />
       <MobiliarioUrbano />
@@ -52,7 +54,10 @@ export function CityScene({ rotaResultado, ruas, onSelecionarLocal }: CityMap3DP
           rua={rua}
           inicio={inicio.posicao}
           fim={destino.posicao}
-          naRota={isRuaNaRota(caminhoIds, rua.origem, rua.destino)}
+          naRota={!passo && isRuaNaRota(caminhoIds, rua.origem, rua.destino)}
+          anterior={isRuaNaRota(rotaAnterior ?? [], rua.origem, rua.destino)}
+          analisada={!!passo && ((passo.atual === rua.origem && passo.consideradas.includes(rua.destino)) || (passo.atual === rua.destino && passo.consideradas.includes(rua.origem)))}
+          onAlternar={() => onAlternarRua?.(ruas.indexOf(rua))}
           rotaAtiva={rotaResultado !== null}
         />
       ))}
@@ -63,7 +68,8 @@ export function CityScene({ rotaResultado, ruas, onSelecionarLocal }: CityMap3DP
           local={local}
           isOrigem={caminhoIds[0] === local.value}
           isDestino={caminhoIds[caminhoIds.length - 1] === local.value}
-          naRota={isLocalNaRota(caminhoIds, local.value)}
+          naRota={passo ? passo.visitados.includes(local.value) : isLocalNaRota(caminhoIds, local.value)}
+          analisado={passo?.atual === local.value}
           selecionado={predioSelecionado === local.value}
           onSelecionar={() => atualizarSelecao(local.value)}
         />

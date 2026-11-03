@@ -1,13 +1,8 @@
 import { NextResponse } from 'next/server';
-import { RequisicaoRota, RespostaRota, RuaProps } from '@/types/city';
+import { RequisicaoRota, RuaProps } from '@/types/city';
 import { LOCAIS, RUAS } from '@/mocks/cityMocks';
+import { calcularDijkstra } from '@/lib/dijkstra';
 import { aplicarPesos, chaveRua } from '@/lib/ruas';
-
-interface GrafoAdjacencia {
-  [key: string]: { 
-    [key: string]: number 
-  };
-}
 
 const LOCAIS_CONHECIDOS = new Set(LOCAIS.map((local) => local.value));
 const CHAVES_CONHECIDAS = new Set(
@@ -40,72 +35,6 @@ function resolverRuas(entrada: unknown): RuaProps[] {
   return aplicarPesos(pesos);
 }
 
-// Algoritmo de Dijkstra
-function calcularDijkstra(
-  origemId: string,
-  destinoId: string,
-  ruas: RuaProps[]
-): RespostaRota {
-  // 1. Construir lista de adjacência (Grafo não direcionado)
-  const grafo: GrafoAdjacencia = {};
-  LOCAIS.forEach(loc => { grafo[loc.value] = {}; });
-  
-  ruas.forEach(rua => {
-    grafo[rua.origem][rua.destino] = rua.peso;
-    grafo[rua.destino][rua.origem] = rua.peso; // Não direcionado
-  });
-
-  // 2. Estruturas para rastrear distâncias e caminhos
-  const distancias: Record<string, number> = {};
-  const anteriores: Record<string, string | null> = {};
-  const naoVisitados = new Set<string>(LOCAIS.map(l => l.value));
-
-  LOCAIS.forEach(loc => {
-    distancias[loc.value] = Infinity;
-    anteriores[loc.value] = null;
-  });
-  distancias[origemId] = 0;
-
-  // 3. Loop principal do Dijkstra
-  while (naoVisitados.size > 0) {
-    let atual: string | null = null;
-    let menorDistancia = Infinity;
-
-    for (const no of naoVisitados) {
-      if (distancias[no] < menorDistancia) {
-        menorDistancia = distancias[no];
-        atual = no;
-      }
-    }
-
-    if (atual === null || atual === destinoId) break;
-    naoVisitados.delete(atual);
-
-    for (const vizinho in grafo[atual]) {
-      if (naoVisitados.has(vizinho)) {
-        const alt = distancias[atual] + grafo[atual][vizinho];
-        if (alt < distancias[vizinho]) {
-          distancias[vizinho] = alt;
-          anteriores[vizinho] = atual;
-        }
-      }
-    }
-  }
-
-  // 4. Reconstruir o caminho percorrido
-  const caminho: string[] = [];
-  let noAtual: string | null = destinoId;
-  while (noAtual !== null) {
-    caminho.unshift(noAtual);
-    noAtual = anteriores[noAtual];
-  }
-
-  return {
-    caminho: distancias[destinoId] !== Infinity ? caminho : [],
-    distanciaTotal: distancias[destinoId]
-  };
-}
-
 // Endpoint POST para calcular a rota entre dois locais
 export async function POST(request: Request) {
   let body: RequisicaoRota;
@@ -130,6 +59,7 @@ export async function POST(request: Request) {
   }
 
   const ruas = resolverRuas(body.ruas);
-  const resultado = calcularDijkstra(origem, destino, ruas);
+  const bloqueadas = Array.isArray(body.ruas) ? RUAS.flatMap((rua, i) => body.ruas?.some(item => chaveRua(item.origem, item.destino) === chaveRua(rua.origem, rua.destino) && item.bloqueada === true) ? [i] : []) : [];
+  const resultado = calcularDijkstra(origem, destino, ruas.map(rua => rua.peso), bloqueadas);
   return NextResponse.json(resultado);
 }

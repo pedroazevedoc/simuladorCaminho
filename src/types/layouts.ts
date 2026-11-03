@@ -19,6 +19,7 @@ export interface FormularioRotaProps {
 export interface EditorCustoViaProps {
   ruas: RuaProps[];
   onAlterarPeso: (origem: string, destino: string, peso: number) => void;
+  onAlternarRua: (origem: string, destino: string) => void;
   onRestaurar: () => void;
 }
 
@@ -38,6 +39,7 @@ export interface PainelControleProps {
   onTrocarPontos: () => void;
   onCalcular: () => void;
   onAlterarPeso: (origem: string, destino: string, peso: number) => void;
+  onAlternarRua: (origem: string, destino: string) => void;
   onRestaurar: () => void;
   className?: string;
 }

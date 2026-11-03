@@ -31,11 +31,12 @@ export function PainelControle({
   onTrocarPontos,
   onCalcular,
   onAlterarPeso,
+  onAlternarRua,
   onRestaurar,
   className,
 }: PainelControleProps) {
   return (
-    <div className={cn('flex w-full flex-col gap-2.5', className)}>
+    <div className={cn('flex w-full flex-col gap-4', className)}>
       <div className="hidden items-center gap-2 px-1 lg:flex">
         <LayoutDashboard className="size-4 text-primary" aria-hidden="true" />
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -58,6 +59,7 @@ export function PainelControle({
       <EditorCustoVia
         ruas={ruas}
         onAlterarPeso={onAlterarPeso}
+        onAlternarRua={onAlternarRua}
         onRestaurar={onRestaurar}
       />
 

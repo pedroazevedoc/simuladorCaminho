@@ -10,6 +10,7 @@ const ELEVACAO_LOTE = 0.005;
 
 interface PredioProps {
   local: LocalProps;
+  analisado?: boolean;
   isOrigem: boolean;
   isDestino: boolean;
   naRota: boolean;
@@ -19,6 +20,7 @@ interface PredioProps {
 
 export function Predio({ 
   local,
+  analisado,
   isOrigem,
   isDestino,
   naRota,
@@ -40,7 +42,7 @@ export function Predio({
   const topoTelhado = dimensoes.altura + telhado.altura + telhado.alturaElevada;
 
   // Precedência de cor do predio: origem > destino > selecionado > naRota > cor padrão do tipo
-  const corEfetiva = isOrigem
+  const corEfetiva = analisado ? '#22d3ee' : isOrigem
     ? CORES_ESTADO.origem
     : isDestino
       ? CORES_ESTADO.destino
@@ -85,6 +87,10 @@ export function Predio({
         />
       </mesh>
 
+      {/* Fachadas e identificação tornam os locais reconhecíveis na apresentação. */}
+      {[-0.28, 0.28].map(fator => <mesh key={fator} position={[dimensoes.largura * fator, dimensoes.altura * 0.6, dimensoes.profundidade / 2 + 0.02]}><boxGeometry args={[dimensoes.largura * 0.16, dimensoes.altura * 0.22, 0.04]} /><meshStandardMaterial color="#bae6fd" emissive="#fef3c7" emissiveIntensity={0.3} /></mesh>)}
+      <mesh position={[0, 0.5, dimensoes.profundidade / 2 + 0.03]}><boxGeometry args={[0.5, 1, 0.05]} /><meshStandardMaterial color="#334155" /></mesh>
+      {local.tipo === 'hospital' && <group position={[0, dimensoes.altura + 0.6, dimensoes.profundidade / 2]}><mesh><boxGeometry args={[0.9, 0.25, 0.15]} /><meshStandardMaterial color="#ef4444" /></mesh><mesh><boxGeometry args={[0.25, 0.9, 0.15]} /><meshStandardMaterial color="#ef4444" /></mesh></group>}
       <Telhado tipo={local.tipo} dimensoes={dimensoes} />
 
       <Html

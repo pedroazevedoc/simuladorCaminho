@@ -20,10 +20,11 @@ export function ResultadoRota({ resultado, carregando = false }: ResultadoRotaPr
   const temRota =
     resultado !== null && Number.isFinite(resultado.distanciaTotal) && resultado.caminho.length > 0;
 
-  if (!resultado || !temRota) {
+  if (!resultado || resultado.distanciaTotal === null || !temRota) {
     return (
       <section
         aria-labelledby="resultado-titulo"
+        aria-live="polite"
         className="w-full rounded-xl border border-dashed border-border/80 bg-card/60 p-3.5"
       >
         <header className="flex items-center gap-2">
@@ -33,8 +34,10 @@ export function ResultadoRota({ resultado, carregando = false }: ResultadoRotaPr
           </h2>
         </header>
         <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-          {resultado
-            ? 'Não foi encontrada uma rota entre os pontos selecionados. Ajuste as vias ou escolha outro destino.'
+          {carregando
+            ? 'Calculando rota...'
+            : resultado
+            ? 'Viagem impossível: não há caminho disponível entre os pontos. Libere uma ou mais ruas ou escolha outros locais.'
             : 'Escolha origem e destino e clique em Calcular Menor Rota para ver o custo e o trajeto destacado no mapa.'}
         </p>
       </section>
