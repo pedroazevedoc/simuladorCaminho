@@ -1,6 +1,6 @@
 'use client';
 
-import { Info, SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/kibo-ui/spinner';
 import { formatarPeso } from '@/lib/ruas';
@@ -40,25 +40,12 @@ function SeloRua({ estilo }: { estilo: (typeof RUAS)[number]['estilo'] }) {
  */
 export function OverlayMapa({ resultado, carregando, onAbrirPainel }: OverlayMapaProps) {
   const custo =
-    resultado && Number.isFinite(resultado.distanciaTotal)
+    resultado && resultado.distanciaTotal !== null && Number.isFinite(resultado.distanciaTotal)
       ? formatarPeso(resultado.distanciaTotal)
       : null;
 
   return (
     <>
-      <div className="pointer-events-none absolute left-3 top-3 z-10 max-w-[min(21rem,calc(100%-1.5rem))]">
-        <div className="flex items-start gap-2 rounded-lg border border-border bg-card/90 px-3 py-2 text-card-foreground shadow-lg backdrop-blur-md">
-          <Info className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-          <div>
-            <p className="text-[11px] font-semibold">Explore o mapa 3D</p>
-            <p className="text-[10px] leading-snug text-muted-foreground">
-              Arraste para girar · pinça/scroll para zoom · toque em um prédio
-              para ver detalhes.
-            </p>
-          </div>
-        </div>
-      </div>
-
       {carregando && (
         <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center">
           <div
