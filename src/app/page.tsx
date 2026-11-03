@@ -233,7 +233,7 @@ export default function Home() {
           aria-label="Mapa 3D da cidade"
           className="relative h-[min(68vh,640px)] min-h-[380px] overflow-hidden rounded-2xl border border-border/60 shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-ring/60 sm:min-h-[480px]"
         >
-          <CityMap3D rotaResultado={resultado} ruas={ruas} onSelecionarLocal={setSelecionado} onAlternarRua={alternarRua} passo={passo} progresso={passo ? undefined : progresso} seguir={seguir} noturno={noturno} rotaAnterior={resultado?.caminho.length ? anterior?.caminho : undefined} />
+          <CityMap3D rotaResultado={resultado} ruas={ruas} onSelecionarLocal={setSelecionado} onAlternarRua={alternarRua} onRestaurarCamera={() => setSeguir(false)} passo={passo} progresso={passo ? undefined : progresso} seguir={seguir} noturno={noturno} rotaAnterior={resultado?.caminho.length ? anterior?.caminho : undefined} />
           {selecionado && <div className="absolute left-3 top-20 z-20 flex gap-2 rounded-lg border bg-card p-2 text-sm"><span>{LOCAIS.find(l => l.value === selecionado)?.label}</span><button onClick={() => { alterarOrigem(selecionado); setSelecionado(null); }}>Sair daqui</button><button onClick={() => { alterarDestino(selecionado); setSelecionado(null); }}>Ir para cá</button></div>}
           <OverlayMapa
             resultado={resultado}
