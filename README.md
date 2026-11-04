@@ -64,14 +64,17 @@ Uma resposta bem-sucedida contém `caminho`, `distanciaTotal` e `passos`. Cada p
 
 ```text
 src/
-  app/page.tsx                    Estado da interface e integração dos componentes
+  app/page.tsx                    Composição da interface e integração dos componentes
+  hooks/                         Estado da rota e da simulação
   app/api/rota/route.ts           Validação da requisição e resposta HTTP
   mocks/cityMocks.ts              Locais, ruas e elementos da cidade
   lib/dijkstra.ts                Cálculo da rota e registro das etapas
+  lib/rota/                      Interpretação da requisição e cliente HTTP
+  lib/geometria/                 Geometria compartilhada do viaduto
   lib/percurso.ts                Posição do veículo durante a animação
   lib/ruas.ts                    Utilitários de pesos e identidade das ruas
   components/city3d/             Cena 3D, mapa alternativo e geometria
-  components/city3d/geometria/   Prédios, ruas, veículo e elevação do viaduto
+  components/city3d/geometria/   Prédios, ruas e veículo
   components/layouts/            Painel, formulário, resultado e modal de ajuda
   components/ui/                 Componentes shadcn/ui com Base UI
   types/                         Contratos da cidade e da interface
