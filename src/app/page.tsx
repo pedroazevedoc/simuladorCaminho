@@ -122,7 +122,7 @@ export default function Home() {
             id="mapa"
             tabIndex={-1}
             aria-label="Mapa 3D da cidade"
-            className="relative h-[min(68vh,640px)] min-h-[380px] overflow-hidden rounded-2xl border border-border/60 shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-ring/60 sm:min-h-[480px]"
+            className="relative h-[min(68vh,640px)] min-h-95 overflow-hidden rounded-2xl border border-border/60 shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-ring/60 sm:min-h-120"
           >
             <CityMap3D
               rotaResultado={resultado}

@@ -1,7 +1,16 @@
 import { Navigation, Pause, Play, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { RespostaRota, PassoDijkstra } from '@/types/city';
 import type { useSimulacao } from '@/hooks/useSimulacao';
+
+const VELOCIDADES = [
+  { label: '0.5×', value: 0.5 },
+  { label: '1×', value: 1 },
+  { label: '2×', value: 2 },
+  { label: '4×', value: 4 },
+];
 
 interface PainelSimulacaoProps {
   resultado: RespostaRota | null;
@@ -41,12 +50,26 @@ export function PainelSimulacao({ resultado, passo, simulacao }: PainelSimulacao
         <Button type="button" variant="outline" onClick={() => { setAnimando(false); setProgresso(0); }}>
           <RotateCcw data-icon="inline-start" /> Reiniciar
         </Button>
-        <label className="flex items-center gap-2 text-sm">
-          Velocidade
-          <select className="h-9 rounded-md border border-input bg-background px-2" value={velocidade} onChange={(e) => setVelocidade(Number(e.target.value))}>
-            {[0.5, 1, 2, 4].map((v) => <option key={v} value={v}>{v}×</option>)}
-          </select>
-        </label>
+        <div className="flex items-center gap-2">
+          <Label htmlFor="velocidade-simulacao">Velocidade</Label>
+          <Select
+            items={VELOCIDADES}
+            value={velocidade}
+            onValueChange={(valor) => { if (valor !== null) setVelocidade(valor); }}
+          >
+            <SelectTrigger id="velocidade-simulacao" className="w-24">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Velocidade</SelectLabel>
+                {VELOCIDADES.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" checked={seguir} onChange={(e) => setSeguir(e.target.checked)} /> Seguir carro
         </label>
