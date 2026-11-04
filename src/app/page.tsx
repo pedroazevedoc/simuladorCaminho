@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Navigation, Pause, Play, RotateCcw, Route } from 'lucide-react';
 import { LOCAIS, RUAS } from '@/mocks/cityMocks';
 import { chaveRua } from '@/lib/ruas';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 
 const CityMap3D = dynamic(() => import('@/components/city3d/cityMap3D'), {
   ssr: false,
@@ -28,6 +30,13 @@ const CityMap3D = dynamic(() => import('@/components/city3d/cityMap3D'), {
 const ESPERA_RECALCULO = 300;
 const CHAVE_ONBOARDING = 'simulador-caminho:onboarding-v1';
 const assinaturaVazia = () => () => {};
+
+const velocidadesMock = [
+  { label: '0.5×', value: 0.5 },
+  { label: '1×', value: 1 },
+  { label: '2×', value: 2 },
+  { label: '4×', value: 4 },
+]
 
 function useOnboardingPendente() {
   return useSyncExternalStore(
@@ -231,10 +240,41 @@ export default function Home() {
           id="mapa"
           tabIndex={-1}
           aria-label="Mapa 3D da cidade"
-          className="relative h-[min(68vh,640px)] min-h-[380px] overflow-hidden rounded-2xl border border-border/60 shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-ring/60 sm:min-h-[480px]"
+          className="relative h-[min(68vh,640px)] min-h-95 overflow-hidden rounded-2xl border border-border/60 shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-ring/60 sm:min-h-120"
         >
-          <CityMap3D rotaResultado={resultado} ruas={ruas} onSelecionarLocal={setSelecionado} onAlternarRua={alternarRua} onRestaurarCamera={() => setSeguir(false)} passo={passo} progresso={passo ? undefined : progresso} seguir={seguir} noturno={noturno} rotaAnterior={resultado?.caminho.length ? anterior?.caminho : undefined} />
-          {selecionado && <div className="absolute left-3 top-20 z-20 flex gap-2 rounded-lg border bg-card p-2 text-sm"><span>{LOCAIS.find(l => l.value === selecionado)?.label}</span><button onClick={() => { alterarOrigem(selecionado); setSelecionado(null); }}>Sair daqui</button><button onClick={() => { alterarDestino(selecionado); setSelecionado(null); }}>Ir para cá</button></div>}
+          <CityMap3D
+            rotaResultado={resultado}
+            ruas={ruas}
+            onSelecionarLocal={setSelecionado}
+            onAlternarRua={alternarRua}
+            onRestaurarCamera={() => setSeguir(false)}
+            passo={passo}
+            progresso={passo ? undefined : progresso}
+            seguir={seguir}
+            noturno={noturno}
+            rotaAnterior={resultado?.caminho.length ? anterior?.caminho : undefined} 
+          />
+          {selecionado && (
+            <div className="absolute left-3 top-20 z-20 flex gap-2 rounded-lg border bg-card p-2 text-sm">
+              <span>{LOCAIS.find(l => l.value === selecionado)?.label}</span>
+              <button
+                onClick={() => { 
+                  alterarOrigem(selecionado);
+                  setSelecionado(null);
+                }}
+              >
+                Sair daqui
+              </button>
+              <button
+                onClick={() => { 
+                  alterarDestino(selecionado);
+                  setSelecionado(null);
+                }}
+              >
+                Ir para cá
+              </button>
+            </div>
+          )}
           <OverlayMapa
             resultado={resultado}
             carregando={carregando}
@@ -260,7 +300,34 @@ export default function Home() {
               {animando && !concluido ? <Pause data-icon="inline-start" /> : <Play data-icon="inline-start" />}{animando && !concluido ? 'Pausar' : concluido ? 'Repetir percurso' : 'Iniciar percurso'}
             </Button>
             <Button type="button" variant="outline" onClick={() => { setAnimando(false); setProgresso(0); }}><RotateCcw data-icon="inline-start" /> Reiniciar</Button>
-            <label className="flex items-center gap-2 text-sm">Velocidade <select className="h-9 rounded-md border border-input bg-background px-2" value={velocidade} onChange={e => setVelocidade(Number(e.target.value))}>{[0.5, 1, 2, 4].map(v => <option key={v} value={v}>{v}×</option>)}</select></label>
+            <div className="flex flex-row items-center gap-2">
+              <Label
+                htmlFor='velocidade'
+                className="text-sm text-foreground"
+              >
+                Velocidade
+              </Label>
+              <Select 
+                items={velocidadesMock}
+                value={velocidade}
+                onValueChange={v => setVelocidade(Number(v))}
+                aria-label="Velocidade da simulação"
+              >
+                <SelectTrigger className="w-full max-w-48">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Velocidade</SelectLabel>
+                    {velocidadesMock.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
             <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={seguir} onChange={e => setSeguir(e.target.checked)} /> Seguir carro</label>
             <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={noturno} onChange={e => setNoturno(e.target.checked)} /> Modo noturno</label>
             <span className="text-sm text-muted-foreground">{concluido ? 'Destino alcançado' : `${Math.round(progresso * 100)}% do percurso`}</span>
