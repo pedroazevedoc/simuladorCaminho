@@ -57,7 +57,7 @@ export default function CityMap3D(props: CityMap3DProps) {
       </div>
       {suporte === null ? <div className="flex h-full items-center justify-center text-sm text-slate-400">Preparando visualização...</div> : suporte && modo==='3d' ? (
         <ProtecaoMapa fallback={alternativo}>
-          <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 48, 52], fov: 45 }} fallback={alternativo}>
+          <Canvas shadows="percentage" dpr={[1, 1.5]} camera={{ position: [0, 48, 52], fov: 45 }} fallback={alternativo}>
             <MonitorContexto onPerda={() => setSuporte(false)} />
             <CityScene {...props} />
             <OrbitControls ref={controles} makeDefault zoomToCursor minDistance={20} maxDistance={110} maxPolarAngle={Math.PI / 2.15} />
