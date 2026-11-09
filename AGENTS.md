@@ -25,15 +25,15 @@ Aplicação acadêmica em Next.js 16 (App Router), React 19, TypeScript e Tailwi
 - `src/mocks/cityMocks.ts` é a fonte de verdade da topologia: 12 locais (`LocalProps`) e 19 ruas (`RuaProps`). As coordenadas são tuplas `[x, y, z]`; mantenha referências a locais existentes.
 - O grafo é ponderado e não direcionado. A interface edita pesos e `bloqueada` sem alterar sua topologia; a ordem de `RUAS` também é usada para associar pesos e índices de bloqueio no Dijkstra. Ao alterar a lista, mantenha algoritmo, API e testes coerentes.
 - `src/lib/dijkstra.ts` implementa o algoritmo e retorna `caminho`, `distanciaTotal` e `passos`. Destino inacessível: caminho vazio e distância `null`. Origem igual a destino: distância zero. Preserve as etapas usadas pela visualização didática.
-- `src/app/api/rota/route.ts` valida a requisição e invoca o algoritmo; recebe `{ origem, destino, ruas? }`. `src/app/page.tsx` controla seleção, recálculo, invalidação de respostas antigas, erros e animação. Não apresente uma resposta anterior como rota dos pontos atuais.
+- `src/app/api/rota/route.ts` usa `src/lib/rota/interpretarRequisicao.ts` para interpretar a entrada e invoca o algoritmo; recebe `{ origem, destino, ruas? }`. `src/lib/rota/solicitarRota.ts` faz a chamada HTTP, e `src/hooks/useRota.ts` controla seleção, recálculo, invalidação de respostas antigas e erros; `src/hooks/useSimulacao.ts` controla a animação e as etapas. `src/app/page.tsx` integra os componentes. Não apresente uma resposta anterior como rota dos pontos atuais.
 - Os dados editados não persistem após recarregar a página. `src/lib/ruas.ts` contém a chave de rua não direcionada e a escala limitada para largura visual; o editor aceita distâncias positivas até 10.000 km.
 
 ## Mapa e animação
 
-- Os controles e o carregamento dinâmico do mapa estão em `src/app/page.tsx`. O componente `CityMap3D` está em `src/components/city3d/cityMap3D.tsx`; mantenha `next/dynamic` com `ssr: false` no componente cliente.
+- Os painéis da simulação e do Dijkstra estão em `src/components/layouts/`; o carregamento dinâmico do mapa permanece em `src/app/page.tsx`. O componente `CityMap3D` está em `src/components/city3d/cityMap3D.tsx`; mantenha `next/dynamic` com `ssr: false` no componente cliente.
 - Preserve o mapa alternativo em `src/components/city3d/mapaEsquematico.tsx` para navegadores sem WebGL 2. O Fiber libera o contexto ao desmontar o canvas; não interprete essa liberação normal como falta de suporte.
 - `src/components/city3d/cena.tsx` monta ambiente, prédios e vias. Em `geometria/rua.tsx`, preserve o uso de `THREE.Line` nativo via `<primitive object={...}>` para o destaque da rota; não substitua por `<line>`/`<Line>` JSX. Descarte recursos Three.js criados manualmente.
-- As vias Casa dos Amigos ↔ Casa da Namorada e Comércio ↔ Parque cruzam visualmente sem formar uma conexão no grafo. O viaduto é definido em `geometria/elevacaoVia.ts`; não altere a topologia para simular o cruzamento. Se mudar coordenadas, rampas ou o modelo do percurso, mantenha via, linha da rota e altura do carro (`src/lib/percurso.ts`) alinhadas nos dois sentidos.
+- As vias Casa dos Amigos ↔ Casa da Namorada e Comércio ↔ Parque cruzam visualmente sem formar uma conexão no grafo. O viaduto é definido em `src/lib/geometria/elevacaoVia.ts`; não altere a topologia para simular o cruzamento. Se mudar coordenadas, rampas ou o modelo do percurso, mantenha via, linha da rota e altura do carro (`src/lib/percurso.ts`) alinhadas nos dois sentidos.
 - Pesos editados são custos independentes da geometria. A animação usa o comprimento desenhado e sua velocidade é ilustrativa, não km/h.
 
 ## Interface e convenções

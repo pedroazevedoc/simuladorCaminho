@@ -74,12 +74,12 @@ test('origem igual ao destino tem custo zero, mesmo com ruas bloqueadas', () => 
 
 test('viaduto separa as vias e o carro acompanha a elevação nos dois sentidos', () => {
   const mocks = carregarModulo('src/mocks/cityMocks.ts');
-  const elevacao = carregarModulo('src/components/city3d/geometria/elevacaoVia.ts', {
+  const elevacao = carregarModulo('src/lib/geometria/elevacaoVia.ts', {
     '@/mocks/cityMocks': mocks,
   });
   const { posicaoPercurso } = carregarModulo('src/lib/percurso.ts', {
     '@/mocks/cityMocks': mocks,
-    '@/components/city3d/geometria/elevacaoVia': elevacao,
+    '@/lib/geometria/elevacaoVia': elevacao,
   });
   const amigos = 'casa-dos-amigos';
   const namorada = 'casa-da-namorada';
@@ -93,4 +93,58 @@ test('viaduto separa as vias e o carro acompanha a elevação nos dois sentidos'
   assert.equal(elevacao.alturaDaVia(amigos, namorada, ponto), elevacao.alturaDaVia(namorada, amigos, comprimento - ponto));
   assert(posicaoPercurso([amigos, namorada], ponto / comprimento).posicao[1] > 1);
   assert(posicaoPercurso([namorada, amigos], 1 - ponto / comprimento).posicao[1] > 1);
+});
+
+test('API ignora vias malformadas e mantém bloqueios válidos nos dois sentidos', async () => {
+  const mocks = carregarModulo('src/mocks/cityMocks.ts');
+  const ruasLib = carregarModulo('src/lib/ruas.ts', { '@/mocks/cityMocks': mocks });
+  const interpretacao = carregarModulo('src/lib/rota/interpretarRequisicao.ts', {
+    '@/mocks/cityMocks': mocks,
+    '@/lib/ruas': ruasLib,
+  });
+  const { POST } = carregarModulo('src/app/api/rota/route.ts', {
+    'next/server': { NextResponse: { json: (dados, opcoes) => Response.json(dados, opcoes) } },
+    '@/lib/rota/interpretarRequisicao': interpretacao,
+    '@/lib/dijkstra': { calcularDijkstra },
+  });
+  const requisicao = new Request('http://localhost/api/rota', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      origem,
+      destino,
+      ruas: [null, {}, { origem: 42, destino: 'comercio', bloqueada: true }, {
+        origem: destino,
+        destino: 'comercio',
+        peso: 9.8,
+        bloqueada: true,
+      }],
+    }),
+  });
+  const resposta = await POST(requisicao);
+  const resultado = await resposta.json();
+  assert.equal(resposta.status, 200);
+  assert(resultado.distanciaTotal > 19.1);
+  assert.notDeepEqual(resultado.caminho, [origem, 'comercio', destino]);
+});
+
+
+test('interpretação valida os pontos e aplica apenas ajustes de vias conhecidas', () => {
+  const mocks = carregarModulo('src/mocks/cityMocks.ts');
+  const ruasLib = carregarModulo('src/lib/ruas.ts', { '@/mocks/cityMocks': mocks });
+  const { interpretarRequisicao } = carregarModulo('src/lib/rota/interpretarRequisicao.ts', {
+    '@/mocks/cityMocks': mocks,
+    '@/lib/ruas': ruasLib,
+  });
+  assert.deepEqual(interpretarRequisicao(null), { erro: 'Origem e Destino são obrigatórios' });
+  assert.deepEqual(interpretarRequisicao({ origem, destino: 'inexistente' }), { erro: 'Origem ou Destino desconhecido' });
+  const dados = interpretarRequisicao({ origem, destino, ruas: [
+    { origem: 'comercio', destino: origem, peso: 22, bloqueada: true },
+    { origem: 'inexistente', destino, peso: 1, bloqueada: true },
+    { origem, destino: 'comercio', peso: -1 },
+  ] });
+  const indice = indiceVia(origem, 'comercio');
+  assert.equal(dados.ruas[indice].peso, 22);
+  assert.deepEqual(dados.bloqueadas, [indice]);
+  assert.equal(dados.ruas.length, RUAS.length);
 });

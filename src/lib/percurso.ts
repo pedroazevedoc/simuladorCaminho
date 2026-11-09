@@ -1,6 +1,6 @@
 import { LOCAIS } from '@/mocks/cityMocks';
 import type { Coordenada3D } from '@/types/city';
-import { alturaDaVia } from '@/components/city3d/geometria/elevacaoVia';
+import { alturaDaVia } from '@/lib/geometria/elevacaoVia';
 
 // A animação usa a geometria do desenho; a velocidade não representa km/h reais.
 export function posicaoPercurso(caminho: string[], progresso: number): { posicao: Coordenada3D; angulo: number } | null {
