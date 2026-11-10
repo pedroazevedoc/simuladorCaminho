@@ -1,6 +1,6 @@
 {
   "name": "simulador-caminho",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Simulador de Caminho: Plataforma interativa para simulação de trajetos em ambientes urbanos, utilizando o algoritmo de Dijkstra.",
   "private": true,
   "homepage": "https://simulador-caminho.vercel.app",
