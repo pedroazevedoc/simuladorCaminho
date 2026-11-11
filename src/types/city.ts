@@ -22,20 +22,41 @@ export interface RuaProps {
   origem: string;
   destino: string;
   peso: number;
+  bloqueada?: boolean;
 }
 
 export interface RequisicaoRota {
   origem: string;
   destino: string;
+  // Custos editados pelo usuário. Ausente = usa os pesos padrão do mock.
+  // Só o custo das arestas é editável: a topologia e as posições são fixas.
+  ruas?: RuaProps[];
 }
 
 export interface RespostaRota {
   caminho: string[];
-  distanciaTotal: number;
+  distanciaTotal: number | null;
+  passos: PassoDijkstra[];
+}
+
+export interface PassoDijkstra {
+  atual: string;
+  visitados: string[];
+  consideradas: string[];
+  distancias: Record<string, number | null>;
 }
 
 export interface CityMap3DProps {
+  progresso?: number;
+  seguir?: boolean;
+  onRestaurarCamera?: () => void;
+  noturno?: boolean;
+  passo?: PassoDijkstra;
+  rotaAnterior?: string[];
+  onAlternarRua?: (indice: number) => void;
   rotaResultado: RespostaRota | null;
+  // Custos efetivos das vias (permite que o mapa reflita as edições do usuário)
+  ruas: RuaProps[];
   onSelecionarLocal?: (value: string | null) => void;
 }
 

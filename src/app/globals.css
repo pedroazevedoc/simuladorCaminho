@@ -23,6 +23,18 @@
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+  /* Cores semânticas do mapa 3D e da legenda */
+  --color-map: var(--map);
+  --color-map-foreground: var(--map-foreground);
+  --color-origem: var(--origem);
+  --color-destino: var(--destino);
+  --color-trajeto: var(--trajeto);
+  --color-selecionado: var(--selecionado);
+  --color-rota: var(--rota);
+  --color-asfalto: var(--asfalto);
+  --color-faixa: var(--faixa);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -93,6 +105,20 @@
   --chart-3: oklch(0.705 0.213 47.604); /* orange-500 */
   --chart-4: oklch(0.372 0.044 257.287); /* slate-700 */
   --chart-5: oklch(0.75 0.183 55.934); /* orange-400 */
+  /* Cores de estado do mapa. Espelham CORES_ESTADO/CORES_AMBIENTE em
+     src/components/city3d/config/visuals.ts — mantenha as duas fontes em sincronia. */
+  --map: #0f172a; /* fundo do canvas 3D */
+  --map-foreground: #f8fafc;
+  --origem: #f97316;
+  --destino: #3b82f6;
+  --trajeto: #22c55e;
+  --selecionado: #eab308;
+  --rota: #eab308;
+  --asfalto: #475569;
+  --faixa: #e2e8f0;
+  /* Feedback de sucesso (apenas UI, com contraste adequado em cada tema) */
+  --success: oklch(0.527 0.154 150.069); /* green-700 */
+  --success-foreground: oklch(0.985 0 0);
   --radius: 0.625rem;
   --sidebar: oklch(0.984 0.003 247.858); /* slate-50 */
   --sidebar-foreground: oklch(0.208 0.042 265.755); /* slate-900 */
@@ -128,6 +154,8 @@
   --chart-3: oklch(0.75 0.183 55.934); /* orange-400 */
   --chart-4: oklch(0.446 0.043 257.281); /* slate-600 */
   --chart-5: oklch(0.553 0.195 38.402); /* orange-700 */
+  --success: oklch(0.792 0.209 151.711); /* green-400 */
+  --success-foreground: oklch(0.129 0.042 264.695); /* slate-950 */
   --sidebar: oklch(0.208 0.042 265.755); /* slate-900 */
   --sidebar-foreground: oklch(0.968 0.007 247.896); /* slate-100 */
   --sidebar-primary: oklch(0.705 0.213 47.604); /* orange-500 */

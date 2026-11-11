@@ -17,9 +17,11 @@ export const LOCAIS: LocalProps[] = [
   { value: 'cinema',           label: 'Cinema',            posicao: [14, 0, -5],   tipo: 'cinema' }
 ];
 
-// As ruas (Arestas) com suas respectivas distâncias (Pesos em km).
-// Os pesos foram derivados da distância euclidiana real entre as posições
-// (`posicao`) de cada local no grid, com escala de 0,5 km por unidade.
+// As ruas (Arestas) com seus respectivos custos (pesos).
+// Os valores iniciais foram derivados da distância euclidiana entre as posições
+// (`posicao`) de cada local no grid, com escala de 0,5 km por unidade. A partir
+// da edição do usuário, o peso passa a ser um custo independente do desenho:
+// a geometria da cidade é fixa e apenas a espessura da via acompanha o valor.
 export const RUAS: RuaProps[] = [
   { origem: 'casa-do-luizinho', destino: 'casa-dos-amigos',  peso: 10.1 },
   { origem: 'casa-do-luizinho', destino: 'comercio',         peso: 9.3 },

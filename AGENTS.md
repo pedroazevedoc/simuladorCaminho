@@ -10,29 +10,37 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Simulador Caminho
 
-Next.js 16 (App Router) + React 19 + TypeScript + Tailwind v4 app: a 3D city map (Three.js via @react-three/fiber) that visualizes the shortest path via Dijkstra. UI labels, comments, and commit messages are in **Portuguese (pt-BR)** — keep new UI strings/comments in pt-BR.
+Aplicação acadêmica em Next.js 16 (App Router), React 19, TypeScript e Tailwind v4. Uma cidade 3D visualiza rotas de menor custo calculadas por Dijkstra. Use português (pt-BR) em textos de interface, comentários e mensagens de commit.
 
-## Commands
+## Comandos e verificação
 
-- `npm run dev` — dev server (uses npm; no yarn/pnpm, lockfile is `package-lock.json`)
-- `npm run lint` — ESLint 9 flat config (`eslint.config.mjs`)
-- `npm run build` — **also runs typecheck**; CI (`npm ci && npm run lint && npm run build` on Node 20) is the repo's only quality gate
-- No test framework is configured — don't invent a test command; verify with lint + build
+- `npm ci`, `npm run dev`, `npm run lint` e `npm run build`; use npm e preserve `package-lock.json`.
+- CI (`.github/workflows/ci.yml`) usa Node.js 20 e executa instalação, lint e build; o build também verifica tipos.
+- `node tests/dijkstra.test.mjs` executa os testes existentes com `node:test` e TypeScript já instalado; a CI ainda não os executa. Não há script npm de testes configurado.
+- O build padrão usa Turbopack e pode exigir rede para `next/font` e abertura de porta local para processar CSS. Relate limitações do ambiente; `npm run build -- --webpack` é uma verificação alternativa, não equivalente ao build da CI.
+- Para mudanças visuais ou de interação, verifique também o 3D e o mapa alternativo em navegador quando disponível. Não declare validação visual se ela não foi realizada.
 
-## Architecture
+## Fonte de dados e rotas
 
-- Path alias `@/*` → `src/*` (tsconfig).
-- Graph data lives in `src/mocks/cityMocks.ts` (12 `locais`, 19 `ruas`) and is the single source of truth for both the map and the algorithm.
-- Dijkstra is implemented from scratch in `src/app/api/rota/route.ts` (`POST /api/rota`). Frontend `src/app/page.tsx` posts `{origem, destino}` and renders the result.
-- `src/app/page.tsx` loads `CityMap3D` via `next/dynamic` with `ssr: false` — Three.js *must not* render on the server. Keep it SSR-disabled.
-- Streets in `src/components/cityMap3D.tsx` are drawn with native `THREE.Line` primitives (`<primitive object={...}>`) **intentionally** to avoid React Three Fiber Clock/Timer errors in this version. Preserve that pattern; don't refactor to `<line>`/`<Line>` JSX shorthand.
+- `src/mocks/cityMocks.ts` é a fonte de verdade da topologia: 12 locais (`LocalProps`) e 19 ruas (`RuaProps`). As coordenadas são tuplas `[x, y, z]`; mantenha referências a locais existentes.
+- O grafo é ponderado e não direcionado. A interface edita pesos e `bloqueada` sem alterar sua topologia; a ordem de `RUAS` também é usada para associar pesos e índices de bloqueio no Dijkstra. Ao alterar a lista, mantenha algoritmo, API e testes coerentes.
+- `src/lib/dijkstra.ts` implementa o algoritmo e retorna `caminho`, `distanciaTotal` e `passos`. Destino inacessível: caminho vazio e distância `null`. Origem igual a destino: distância zero. Preserve as etapas usadas pela visualização didática.
+- `src/app/api/rota/route.ts` usa `src/lib/rota/interpretarRequisicao.ts` para interpretar a entrada e invoca o algoritmo; recebe `{ origem, destino, ruas? }`. `src/lib/rota/solicitarRota.ts` faz a chamada HTTP, e `src/hooks/useRota.ts` controla seleção, recálculo, invalidação de respostas antigas e erros; `src/hooks/useSimulacao.ts` controla a animação e as etapas. `src/app/page.tsx` integra os componentes. Não apresente uma resposta anterior como rota dos pontos atuais.
+- Os dados editados não persistem após recarregar a página. `src/lib/ruas.ts` contém a chave de rua não direcionada e a escala limitada para largura visual; o editor aceita distâncias positivas até 10.000 km.
 
-## UI conventions
+## Mapa e animação
 
-- shadcn/ui v4 uses **`@base-ui/react` primitives, not Radix** (`src/components/ui/*`); Kibo UI combobox is at `src/components/kibo-ui/combobox/`. `components.json` sets style `base-nova`, Lucide icons.
-- Tailwind v4 — **no `tailwind.config.js`**; configured via `@tailwindcss/postcss` and `src/app/globals.css` (`@import "tailwindcss"` + CSS variables). Don't add a Tailwind config file or edit theme in JS.
-- `cn()` is re-exported from the `cn` package in `src/lib/utils.ts`; import from `@/lib/utils`, don't redefine.
+- Os painéis da simulação e do Dijkstra estão em `src/components/layouts/`; o carregamento dinâmico do mapa permanece em `src/app/page.tsx`. O componente `CityMap3D` está em `src/components/city3d/cityMap3D.tsx`; mantenha `next/dynamic` com `ssr: false` no componente cliente.
+- Preserve o mapa alternativo em `src/components/city3d/mapaEsquematico.tsx` para navegadores sem WebGL 2. O Fiber libera o contexto ao desmontar o canvas; não interprete essa liberação normal como falta de suporte.
+- `src/components/city3d/cena.tsx` monta ambiente, prédios e vias. Em `geometria/rua.tsx`, preserve o uso de `THREE.Line` nativo via `<primitive object={...}>` para o destaque da rota; não substitua por `<line>`/`<Line>` JSX. Descarte recursos Three.js criados manualmente.
+- As vias Casa dos Amigos ↔ Casa da Namorada e Comércio ↔ Parque cruzam visualmente sem formar uma conexão no grafo. O viaduto é definido em `src/lib/geometria/elevacaoVia.ts`; não altere a topologia para simular o cruzamento. Se mudar coordenadas, rampas ou o modelo do percurso, mantenha via, linha da rota e altura do carro (`src/lib/percurso.ts`) alinhadas nos dois sentidos.
+- Pesos editados são custos independentes da geometria. A animação usa o comprimento desenhado e sua velocidade é ilustrativa, não km/h.
 
-## Type conventions
+## Interface e convenções
 
-- Types live in `src/types/city.ts`: `Local` (grid positions as `[number, number, number]`), `Rua`, `RespostaRota`, `CityMap3DProps`. `posicao` coordinates are 3D tuples — new edges must reference keys that exist in `locais`.
+- Preserve o painel lateral e o drawer móvel em `src/components/layouts/painelControle.tsx`; a lista de ruas está em `editorCustoVia.tsx`. O modal de ajuda fica em `modalInformativo.tsx`.
+- shadcn/ui v4 usa primitivas `@base-ui/react`, não Radix; os componentes locais ficam em `src/components/ui/` e o combobox Kibo em `src/components/kibo-ui/combobox/`. Para trabalho em shadcn, consulte a skill do projeto em `.agents/skills/shadcn/SKILL.md` quando disponível.
+- Tailwind v4 é configurado por `@tailwindcss/postcss` e `src/app/globals.css`; não adicione `tailwind.config.js`. Importe `cn` de `@/lib/utils`.
+- Tipos compartilhados ficam em `src/types/city.ts` e `src/types/layouts.ts`; o alias `@/*` aponta para `src/*`.
+
+Consulte o [README](README.md) para uso e contrato da API e [docs/plano-apresentacao.md](docs/plano-apresentacao.md) para o roteiro de demonstração.
